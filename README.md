@@ -10,6 +10,7 @@ Currently, two official plugins are available:
 
 # Details of Previous Milestones
 Milestone 1's details are in Milestone1.pdf
+Milestone 2's details are in Milestone2.pdf
 
 # Progress
 
