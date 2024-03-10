@@ -15,7 +15,7 @@ diary that serves as a valuable tool for self-reflection and emotional awareness
 
 # Details of Previous Milestones
 Milestone 1's details are in Milestone1.pdf
+Milestone 2's details are in Milestone2.pdf
 
-# Progress
-
-# TODOS
+# Progress and Challanges and Where to Start
+Check the Direction folder for the full timeline of the project.
