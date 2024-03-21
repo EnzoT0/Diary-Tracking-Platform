@@ -20,13 +20,9 @@ function StartPage() {
       const password = formData.get('password');
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
-        console.log('Login successful:', user.email);
-        console.log('Password: ', user.password)
         navigate("/menu")
         
     } else {
-        console.log('Login unsuccessful:', user.email);
-        console.log('Password: ', user.password)
         console.log('Invalid email or password');
       }
     }
