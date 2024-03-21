@@ -6,8 +6,6 @@ import { useNavigate } from 'react-router-dom';
 function StartPage() {
     const [showLoginForm, setShowLoginForm] = useState(false);
     const navigate = useNavigate();
-
-
   
     const handleStart = () => {
       setShowLoginForm(true);
@@ -30,7 +28,6 @@ function StartPage() {
 
     const handleRegister = () => {
         console.log('Register button clicked');
-        // Add your register logic here
       };
   
     return (
@@ -42,7 +39,7 @@ function StartPage() {
           <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="email" required />
+              <input type="email" id="email" name="emaigitl" required />
             </div>
             <div>
               <label htmlFor="password">Password:</label>
