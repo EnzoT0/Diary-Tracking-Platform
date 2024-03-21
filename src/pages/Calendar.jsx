@@ -7,7 +7,7 @@ const sizeWidth = 6
 
 const Types = ['Year', 'YearTheme', 'Date', 'Summary', 'EmotionBoard', 'IssueBoard'];
 
-function ResponsiveExample() {
+function Calendar() {
   const fetchData = [{
     "Year": "2021",
     "YearTheme": "New Beginnings",
@@ -91,4 +91,4 @@ function ResponsiveExample() {
   );
 }
 
-export default ResponsiveExample;
+export default Calendar;

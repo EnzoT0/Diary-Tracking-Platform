@@ -4,7 +4,7 @@ import Navbar from '../components/Homebar.jsx';
 import { Link } from 'react-router-dom';
 
 const sizeHeight = 52
-const sizeWidth = 6
+const sizeWidth = 5
 
 const Types = ['Year', 'YearTheme', 'Date', 'Summary', 'EmotionBoard', 'IssueBoard'];
 
@@ -73,7 +73,6 @@ function ResponsiveExample() {
       <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
-            <th>Week</th>
             {Types.map((day, index) => (
               <th key={index}>{day}</th>
             ))}
@@ -89,6 +88,11 @@ function ResponsiveExample() {
                   {indexWidth === 3 ? (
                     <Link to={`/emotionBoard?id=${data.EmotionBoard}`}>
                       EmotionBoard {data.EmotionBoard}
+                    </Link>
+                  ) : 
+                    indexWidth === 4 ? (
+                    <Link to={`/issueBoard?id=${data.IssueBoard}`}>
+                      IssueBoard {data.IssueBoard}
                     </Link>
                   ) : (
                     data[Types[indexWidth]] // Render other fields
