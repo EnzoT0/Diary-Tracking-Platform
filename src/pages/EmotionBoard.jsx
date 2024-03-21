@@ -1,6 +1,5 @@
 import Table from 'react-bootstrap/Table';
 
-<<<<<<< HEAD
 import Navbar from '../components/Homebar.jsx';
 
 const sizeHeight = 52;
@@ -37,5 +36,3 @@ function ResponsiveExample() {
 }
 
 export default ResponsiveExample;
-=======
->>>>>>> dfe7ce348c9e4e63a333c30e5f6852f3fd5c4ef4
