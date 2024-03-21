@@ -6,6 +6,7 @@ const Diary = () => {
         <div>
             <Homebar/>
             Diary
+            <button style={{ fontSize: '24px', padding: '5em' }} onClick={() => { navigate("/DiaryEntry");}}> Add diary Entry</button>
         </div>
     );
 };

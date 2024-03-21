@@ -1,38 +1,39 @@
 import Table from 'react-bootstrap/Table';
 
-import Navbar from '../components/Homebar.jsx';
+const Columnsnames =  ["EmotionID", "Subtypes", "OverallType"];
 
-const sizeHeight = 52;
-const sizeWidth = 7;
+function DisplayEmotions(year) {
 
-const Days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const mockup = [{
+        EmotionID: 1,
+        SubType: "mock1",
+        OverallType: "Angry"
+    }, {
+        EmotionID: 2,
+        SubType: "mock2",
+        OverallType: "Happy"
+    }];
 
-function ResponsiveExample() {
-  return (
-    <div>
-      <Navbar/>
-      <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
+    return (
+        <>
+        <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
-            <th>Week</th>
-            {Array.from({ length: sizeWidth }).map((_, index) => (
-              <th key={index}>{Days[index]}</th>
+            {Columnnames.map((colname) => (
+              <th key = {colname}> {colname} </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: sizeHeight }).map((_, indexHeight) => (
+          {mockup.map((queryresult) => (
             <tr>
-              <td key={indexHeight}>{indexHeight+1}</td>
-              {Array.from({ length: sizeWidth }).map((_, indexWidth) => (
-                <td key={indexWidth}>Table cell {indexWidth+1}</td>
-              ))}
+              {Columnnames.map((colname) => (
+              <th key = {colname}> {queryresult[colname]} </th>
+            ))}
             </tr>
           ))}
         </tbody>
       </Table>
-    </div>
-  );
+      </>
+    )
 }
-
-export default ResponsiveExample;
