@@ -1,38 +1,89 @@
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
-
 import Navbar from '../components/Homebar.jsx';
 
-const sizeHeight = 52;
-const sizeWidth = 7;
+const sizeWidth = 3; // Adjust based on the number of properties in your EmotionBoard data
 
-const Days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const fakeData = [{
+  ID: '1',
+  subtype: 'Happy',
+  OverallType: 'Positive',
+}, {
+  ID: '2',
+  subtype: 'Sad',
+  OverallType: 'Negative',
+}, {
+  ID: '3',
+  subtype: 'Angry',
+  OverallType: 'Negative',
+}, {
+  ID: '4',
+  subtype: 'Excited',
+  OverallType: 'Positive',
+}, {
+  ID: '5',
+  subtype: 'Anxious',
+  OverallType: 'Negative',
+}, {
+  ID: '6',
+  subtype: 'Relaxed',
+  OverallType: 'Positive',
+}];
 
-function ResponsiveExample() {
+
+
+const EmotionBoard = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [emotionBoard, setEmotionBoard] = useState(null);
+
+  console.log("hello")
+
+  useEffect(() => {
+    // const fetchEmotionBoard = async () => {
+    //   try {
+    //     const response = await axios.get(`/api/emotionBoard/${id}`);
+    //     setEmotionBoard(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching EmotionBoard data:', error);
+    //   }
+    // };
+
+    // fetchEmotionBoard();
+
+    const id = searchParams.get('id');
+    console.log(id)
+
+    setEmotionBoard(fakeData.find((data) => data.ID === id));
+    console.log(emotionBoard)
+    
+  }, [searchParams]);
+
+  if (!emotionBoard) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Navbar/>
       <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
-            <th>Week</th>
-            {Array.from({ length: sizeWidth }).map((_, index) => (
-              <th key={index}>{Days[index]}</th>
+            {Object.keys(emotionBoard).map((key, index) => (
+              <th key={index}>{key}</th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {Array.from({ length: sizeHeight }).map((_, indexHeight) => (
-            <tr>
-              <td key={indexHeight}>{indexHeight+1}</td>
-              {Array.from({ length: sizeWidth }).map((_, indexWidth) => (
-                <td key={indexWidth}>Table cell {indexWidth+1}</td>
-              ))}
-            </tr>
-          ))}
+          <tr>
+            {Object.values(emotionBoard).map((value, index) => (
+              <td key={index}>{value}</td>
+            ))}
+          </tr>
         </tbody>
       </Table>
     </div>
   );
-}
+};
 
-export default ResponsiveExample;
+export default EmotionBoard;

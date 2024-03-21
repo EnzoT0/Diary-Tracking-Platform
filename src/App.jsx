@@ -5,6 +5,7 @@ import Calendar from './pages/Calendar.jsx'
 import Diary from './pages/Diary.jsx';
 import Goallist from './pages/Goallist.jsx';
 import CalendarNew from './pages/CalendarNew.jsx';
+import EmotionBoard from './pages/EmotionBoard.jsx';
 
 const App = () => (
     <Router>
@@ -13,6 +14,7 @@ const App = () => (
             <Route path="/calendar" element={<CalendarNew />} />
             <Route path="/diary" element={<Diary />} />
             <Route path="/goallist" element={<Goallist />} />
+            <Route path="/emotionBoard" element={<EmotionBoard />} />
         </Routes>
     </Router>
 )

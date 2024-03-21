@@ -13,56 +13,56 @@ function ResponsiveExample() {
     "YearTheme": "New Beginnings",
     "Date": "01/01/2021",
     "Summary": "First day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 1,
+    "IssueBoard": 1
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/02/2021",
     "Summary": "Second day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 2,
+    "IssueBoard": 2
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/03/2021",
     "Summary": "Third day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 3,
+    "IssueBoard": 3
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/04/2021",
     "Summary": "Fourth day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 4,
+    "IssueBoard": 4
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/05/2021",
     "Summary": "Fifth day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 5,
+    "IssueBoard": 5
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/06/2021",
     "Summary": "Sixth day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 6,
+    "IssueBoard": 6
   },
   {
     "Year": "2021",
     "YearTheme": "New Beginnings",
     "Date": "01/07/2021",
     "Summary": "Seventh day of the year",
-    "EmotionBoard": "Happy",
-    "IssueBoard": "None"
+    "EmotionBoard": 7,
+    "IssueBoard": 7
   }]
 
 
