@@ -1,21 +1,19 @@
 import Table from 'react-bootstrap/Table';
 
-const Columnsnames =  ["IssueID", "Name", "Resolved", "Date", "Details"];
+const Columnsnames =  ["ID", "Name", "Email", "Placemet"];
 
-function DisplayIssues(year) {
+function DisplayFriends() {
 
     const mockup = [{
-        IssueID: 1,
+        ID: 1,
         Name: "mock1",
-        Resolved: true,
-        Date: Date('January 20, 2020'),
-        Details: "HelloWorld"
+        Email: "mock1@gmail.com", // note that password is not returned since it is private.
+        Placemet: "Vancouver" // true for done
     }, {
-        IssueID: 2,
+        ID: 2,
         Name: "mock2",
-        Resolved: false,
-        Date: Date('January 21, 2020'),
-        Details: "HelloWorld1"
+        Email: "mock2@gmail.com",
+        Placemet: "Toronto" // false for notdone
     }];
 
     return (
@@ -41,3 +39,5 @@ function DisplayIssues(year) {
       </>
     )
 }
+
+export default DisplayGoals
