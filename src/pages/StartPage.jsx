@@ -14,14 +14,19 @@ function StartPage() {
     const handleSubmit = (event) => {
       event.preventDefault();
       const formData = new FormData(event.target);
+      console.log('Form Data:', formData);
+
       const email = formData.get('email');
       const password = formData.get('password');
       const user = users.find(user => user.email === email && user.password === password);
       if (user) {
-        // console.log('Login successful:', user.email);
+        console.log('Login successful:', user.email);
+        console.log('Password: ', user.password)
         navigate("/menu")
         
     } else {
+        console.log('Login unsuccessful:', user.email);
+        console.log('Password: ', user.password)
         console.log('Invalid email or password');
       }
     }
@@ -36,10 +41,10 @@ function StartPage() {
         {!showLoginForm ? (
           <button onClick={handleStart}>Register/Login</button>
         ) : (
-          <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
             <div>
               <label htmlFor="email">Email:</label>
-              <input type="email" id="email" name="emaigitl" required />
+              <input type="email" id="email" name="email" required />
             </div>
             <div>
               <label htmlFor="password">Password:</label>
@@ -53,7 +58,5 @@ function StartPage() {
     );
   }
   
-  const root = createRoot(document.getElementById('root'));
-  root.render(<StartPage />);
 
   export default StartPage
