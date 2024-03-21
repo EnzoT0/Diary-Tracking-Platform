@@ -6,6 +6,7 @@ const sizeWidth = 7;
 const Days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 function ResponsiveExample() {
+  // make sure that your calendar passes a year to the emotionboard and issues as a parameter.
   return (
     <Table striped bordered hover>
       <thead>
