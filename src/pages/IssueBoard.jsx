@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
+import Homebar from '../components/Homebar';
 
-const Columnsnames =  ["IssueID", "Name", "Resolved", "Date", "Details"];
+const Columnnames =  ["IssueID", "Name", "Resolved", "Date", "Details"];
 
 function DisplayIssues(year) {
 
@@ -20,6 +21,7 @@ function DisplayIssues(year) {
 
     return (
         <>
+        <Homebar />
         <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
@@ -41,3 +43,5 @@ function DisplayIssues(year) {
       </>
     )
 }
+
+export default DisplayIssues

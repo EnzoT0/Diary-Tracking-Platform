@@ -1,6 +1,7 @@
 import Table from 'react-bootstrap/Table';
+import Homebar from '../components/Homebar';
 
-const Columnsnames =  ["GoalID", "GoalDescription", "Status"];
+const Columnnames =  ["GoalID", "GoalDescription", "Status"];
 
 function DisplayGoals() {
 
@@ -16,6 +17,7 @@ function DisplayGoals() {
 
     return (
         <>
+        <Homebar />
         <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
