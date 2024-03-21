@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useSearchParams } from "react-router-dom";
 import Table from 'react-bootstrap/Table';
 
 const Columnsnames =  ["EmotionID", "Subtypes", "OverallType"];
