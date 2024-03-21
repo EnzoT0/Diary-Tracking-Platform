@@ -1,8 +1,12 @@
 import React from 'react'
+import Homebar from '../components/Homebar'
 
 function Goallist() {
   return (
-    <div>Goallist</div>
+    <div>
+        <Homebar/>
+        Goallist
+    </div>
   )
 }
 
