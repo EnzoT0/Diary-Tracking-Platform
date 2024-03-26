@@ -1,43 +1,73 @@
-import Table from 'react-bootstrap/Table';
-import Homebar from '../components/Homebar';
+import React, { useState } from "react";
+import Table from "react-bootstrap/Table";
+import Homebar from "../components/Homebar";
 
-const Columnnames =  ["GoalID", "GoalDescription", "Status"];
+const Columnnames = ["GoalID", "GoalDescription", "Status"];
 
 function DisplayGoals() {
+  const [goals, setGoals] = useState([
+    {
+      GoalID: 1,
+      GoalDescription: "mock1",
+      Status: true, // true for done
+    },
+    {
+      GoalID: 2,
+      GoalDescription: "mock2",
+      Status: false, // false for notdone
+    },
+  ]);
 
-    const mockup = [{
-        GoalID: 1,
-        GoalDescription: "mock1",
-        Status: true // true for done
-    }, {
-        GoalID: 2,
-        GoalDescription: "mock2",
-        Status: false // false for notdone
-    }];
+  const [inputValue, setInputValue] = useState("");
 
-    return (
-        <>
-        <Homebar />
-        <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
+  const handleAddGoal = () => {
+    const newGoal = {
+      GoalID: goals.length + 1,
+      GoalDescription: inputValue,
+      Status: false, // assuming newly added goals are not done
+    };
+    setGoals([...goals, newGoal]);
+    setInputValue(""); // Clear input after adding
+  };
+
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
+
+  return (
+    <>
+      <Homebar />
+      <Table
+        striped
+        bordered
+        borderColor="white"
+        hover
+        size="xxl"
+        style={{ justifySelf: "center" }}
+      >
         <thead>
           <tr>
             {Columnnames.map((colname) => (
-              <th key = {colname}> {colname} </th>
+              <th key={colname}> {colname} </th>
             ))}
           </tr>
         </thead>
         <tbody>
-          {mockup.map((queryresult) => (
-            <tr>
+          {goals.map((goal) => (
+            <tr key={goal.GoalID}>
               {Columnnames.map((colname) => (
-              <th key = {colname}> {queryresult[colname]} </th>
-            ))}
+                <td key={colname}> {goal[colname]} </td>
+              ))}
             </tr>
           ))}
         </tbody>
       </Table>
-      </>
-    )
+      <div>
+        <input type="text" value={inputValue} onChange={handleChange} />
+        <button onClick={handleAddGoal}>Add Goal</button>
+      </div>
+    </>
+  );
 }
 
-export default DisplayGoals
+export default DisplayGoals;
