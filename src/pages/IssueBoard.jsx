@@ -1,18 +1,22 @@
 import Table from 'react-bootstrap/Table';
 import Homebar from '../components/Homebar';
 
-const Columnnames =  ["GoalID", "GoalDescription", "Status"];
+const Columnnames =  ["IssueID", "Name", "Resolved", "Date", "Details"];
 
-function DisplayGoals() {
+function DisplayIssues(year) {
 
     const mockup = [{
-        GoalID: 1,
-        GoalDescription: "mock1",
-        Status: true // true for done
+        IssueID: 1,
+        Name: "mock1",
+        Resolved: true,
+        Date: Date('January 20, 2020'),
+        Details: "HelloWorld"
     }, {
-        GoalID: 2,
-        GoalDescription: "mock2",
-        Status: false // false for notdone
+        IssueID: 2,
+        Name: "mock2",
+        Resolved: false,
+        Date: Date('January 21, 2020'),
+        Details: "HelloWorld1"
     }];
 
     return (
@@ -40,4 +44,4 @@ function DisplayGoals() {
     )
 }
 
-export default DisplayGoals
+export default DisplayIssues

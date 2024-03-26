@@ -1,13 +1,14 @@
 import Table from 'react-bootstrap/Table';
 
 import Navbar from '../components/Homebar.jsx';
+import { Link } from 'react-router-dom';
 
 const sizeHeight = 52
-const sizeWidth = 6
+const sizeWidth = 5
 
 const Types = ['Year', 'YearTheme', 'Date', 'Summary', 'EmotionBoard', 'IssueBoard'];
 
-function Calendar() {
+function ResponsiveExample() {
   const fetchData = [{
     "Year": "2021",
     "YearTheme": "New Beginnings",
@@ -65,23 +66,38 @@ function Calendar() {
     "IssueBoard": 7
   }]
 
-
   return (
     <div>
+
       <Navbar/>
       <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
-            {Array.from({ length: sizeWidth }).map((_, index) => (
-              <th key={index}>{Types[index]}</th>
+            {Types.map((day, index) => (
+              <th key={index}>{day}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {fetchData.map((data, index) => (
             <tr key={index}>
-              {Object.values(data).map((value, index) => (
-                <td key={index}>{value}</td>
+              <td>{index + 1}</td>
+              {Array.from({ length: sizeWidth }).map((_, indexWidth) => (
+                <td key={indexWidth}>
+                  {/* Conditionally render EmotionBoard component */}
+                  {indexWidth === 3 ? (
+                    <Link to={`/emotionBoard?id=${data.EmotionBoard}`}>
+                      EmotionBoard {data.EmotionBoard}
+                    </Link>
+                  ) : 
+                    indexWidth === 4 ? (
+                    <Link to={`/issueBoard?id=${data.IssueBoard}`}>
+                      IssueBoard {data.IssueBoard}
+                    </Link>
+                  ) : (
+                    data[Types[indexWidth]] // Render other fields
+                  )}
+                </td>
               ))}
             </tr>
           ))}
@@ -91,4 +107,4 @@ function Calendar() {
   );
 }
 
-export default Calendar;
+export default ResponsiveExample;

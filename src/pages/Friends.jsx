@@ -1,23 +1,23 @@
 import Table from 'react-bootstrap/Table';
-import Homebar from '../components/Homebar';
 
-const Columnnames =  ["GoalID", "GoalDescription", "Status"];
+const Columnsnames =  ["ID", "Name", "Email", "Placemet"];
 
-function DisplayGoals() {
+function DisplayFriends() {
 
     const mockup = [{
-        GoalID: 1,
-        GoalDescription: "mock1",
-        Status: true // true for done
+        ID: 1,
+        Name: "mock1",
+        Email: "mock1@gmail.com", // note that password is not returned since it is private.
+        Placemet: "Vancouver" // true for done
     }, {
-        GoalID: 2,
-        GoalDescription: "mock2",
-        Status: false // false for notdone
+        ID: 2,
+        Name: "mock2",
+        Email: "mock2@gmail.com",
+        Placemet: "Toronto" // false for notdone
     }];
 
     return (
         <>
-        <Homebar />
         <Table striped bordered borderColor="white" hover size='xxl' style={{justifySelf: 'center'}}>
         <thead>
           <tr>
