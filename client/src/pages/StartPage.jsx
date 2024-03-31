@@ -1,11 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import users from "../users.json";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function StartPage() {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const navigate = useNavigate();
+
+  const fetchUsers = async () => {
+    const response = await axios.get("http://localhost:8080/api/users");
+    console.log(response.data.users);
+  }
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
 
   const handleStart = () => {
     setShowLoginForm(true);
