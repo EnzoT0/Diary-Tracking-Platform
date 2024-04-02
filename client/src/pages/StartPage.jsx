@@ -9,7 +9,7 @@ function StartPage() {
   const navigate = useNavigate();
 
   const fetchUsers = async () => {
-    const response = await axios.get("http://localhost:8080/api/users");
+    const response = await axios.get("http://localhost:8080/admin");
     console.log(response.data.users);
   }
 

@@ -4,7 +4,7 @@ import Homebar from "../components/Homebar";
 
 const Columnnames = ["GoalID", "GoalDescription", "Status"];
 
-function DisplayGoals() {
+async function DisplayGoals() {
   const [goals, setGoals] = useState([
     {
       GoalID: 1,
@@ -17,6 +17,8 @@ function DisplayGoals() {
       Status: false, // false for notdone
     },
   ]);
+  // API REQUEST FOR GOALLIST
+  // await request("http://localhost:8080/goallist");
 
   const [inputValue, setInputValue] = useState("");
 

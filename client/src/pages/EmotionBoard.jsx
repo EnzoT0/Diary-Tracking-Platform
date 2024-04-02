@@ -47,35 +47,38 @@ import Homebar from '../components/Homebar.jsx';
 
 const sizeWidth = 3; // Adjust based on the number of properties in your EmotionBoard data
 
-const fakeData = [{
-  ID: '1',
-  subtype: 'Happy',
-  OverallType: 'Positive',
-}, {
-  ID: '2',
-  subtype: 'Sad',
-  OverallType: 'Negative',
-}, {
-  ID: '3',
-  subtype: 'Angry',
-  OverallType: 'Negative',
-}, {
-  ID: '4',
-  subtype: 'Excited',
-  OverallType: 'Positive',
-}, {
-  ID: '5',
-  subtype: 'Anxious',
-  OverallType: 'Negative',
-}, {
-  ID: '6',
-  subtype: 'Relaxed',
-  OverallType: 'Positive',
-}];
+// const fakeData = [{
+//   ID: '1',
+//   subtype: 'Happy',
+//   OverallType: 'Positive',
+// }, {
+//   ID: '2',
+//   subtype: 'Sad',
+//   OverallType: 'Negative',
+// }, {
+//   ID: '3',
+//   subtype: 'Angry',
+//   OverallType: 'Negative',
+// }, {
+//   ID: '4',
+//   subtype: 'Excited',
+//   OverallType: 'Positive',
+// }, {
+//   ID: '5',
+//   subtype: 'Anxious',
+//   OverallType: 'Negative',
+// }, {
+//   ID: '6',
+//   subtype: 'Relaxed',
+//   OverallType: 'Positive',
+// }];
 
 
 
-const EmotionBoard = () => {
+
+
+const EmotionBoard = async () => {
+  const fakeData = await request("http://localhost:8080/emotionboard");
   const [searchParams, setSearchParams] = useSearchParams();
   const [emotionBoard, setEmotionBoard] = useState(null);
 

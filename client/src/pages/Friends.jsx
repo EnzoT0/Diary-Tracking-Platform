@@ -1,20 +1,11 @@
 import Table from 'react-bootstrap/Table';
+const http = require("node:http");
 
 const Columnsnames =  ["ID", "Name", "Email", "Placemet"];
 
-function DisplayFriends() {
+async function DisplayFriends() {
 
-    const mockup = [{
-        ID: 1,
-        Name: "mock1",
-        Email: "mock1@gmail.com", // note that password is not returned since it is private.
-        Placemet: "Vancouver" // true for done
-    }, {
-        ID: 2,
-        Name: "mock2",
-        Email: "mock2@gmail.com",
-        Placemet: "Toronto" // false for notdone
-    }];
+    const mockup = await request("http://localhost:8080/friends");
 
     return (
         <>
