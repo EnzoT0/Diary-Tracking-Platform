@@ -49,27 +49,6 @@ def calendar():
         return result
         
 
-@app.route('/diary', methods = ['GET'])
-
-def diary():
-    if request.method == 'GET':
-        # return the calendar information from the database here.    
-        result = []
-        # TODO: WRITE THE QUERY FOR DIARY HERE. CHECK ON THE FIELDS IN THE FOLLOWING FOR LOOP TO SEE IF THEY ALIGN WITH THE CURSOR.
-        query = ''
-        cursor = connection.cursor()
-        cursor.execute(query)
-        # for Year, YearTheme, Date, Summary, EmotionBoard, IssueBoard in cursor:
-        #     result.append(jsonify({
-        #     "Year": Year,
-        #     "YearTheme": YearTheme,
-        #     "Date": Date,
-        #     "Summary": Summary,
-        #     "EmotionBoard": EmotionBoard,
-        #     "IssueBoard": IssueBoard
-        # }))
-        return result
-
 @app.route('/diaryentry', methods = ['PUT']) 
 def diaryentry():
     if request.method == 'PUT':
