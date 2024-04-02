@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Menu from './pages/Menu.jsx';
-import Calendar from './pages/Calendar.jsx'
+// import CalendarNew from './pages/CalendarNew.jsx'
 import Diary from './pages/Diary.jsx';
 import Goallist from './pages/Goallist.jsx';
 import CalendarNew from './pages/CalendarNew.jsx';

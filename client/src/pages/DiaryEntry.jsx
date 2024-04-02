@@ -31,8 +31,8 @@ function EntriesForm() {
     // const [dateMinute, setDateMinute] = useState('0');
 
     // TODO : make sure you create create the userinput into json string and then let the thing jsonify it. Name the variable singleuserinputobject.
-    // const sendData = await request("http://localhost:8080/diaryentry").send(jsonify(singleuserinputobject));
-
+    // const sendNewData = await request("http://localhost:8080/diaryentry/newdata").send(jsonify(singleuserinputobject));
+    // const sendUpdateData = await request("http://localhost:8080/diaryentry/updatedata").send(jsonify(singleuserinputobject));
     const [emotion, setEmotion] = useState('');
     const [comments, setComments] = useState('');
     const [isEmotionFilled, setIsEmotionFilled] = useState(false);

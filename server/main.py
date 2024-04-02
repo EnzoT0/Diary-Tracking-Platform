@@ -27,14 +27,25 @@ def admin():
 if __name__ == '__main__':
     app.run(debug=True, port = 8080)
     
-@app.route('/calendar', methods=['GET'])
+@app.route('/calendar/<string:options>', methods=['GET'])
 
-def calendar():
+
+
+def calendar(options):
     if request.method == 'GET':
         # return the calendar information from the database here.    
         result = []
         # TODO: WRITE THE QUERY FOR CALENDAR HERE. CHECK ON THE FIELDS IN THE FOLLOWING FOR LOOP TO SEE IF THEY ALIGN WITH THE CURSOR.
-        query = ''
+        if (("projection" in options) and ("selection" in options)):
+            projection = 'SELECT ' + request.body.projection
+            selection = 'WHERE ' + request.body.selection
+            query = projection + 'FROM Year'
+        elif (("projection" in options)):
+            query = ''
+        elif (("selection" in options)):
+            query = ''
+        else :
+            query = ''
         cursor = connection.cursor()
         cursor.execute(query)
         for Year, YearTheme, Date, Summary, EmotionBoard, IssueBoard in cursor:
@@ -49,9 +60,9 @@ def calendar():
         return result
         
 
-@app.route('/diaryentry', methods = ['PUT']) 
-def diaryentry():
-    if request.method == 'PUT':
+@app.route('/diaryentry/<string:task>', methods = ['PUT']) 
+def diaryentry(task):
+    if ((request.method == "PUT") and (task == "newdata")):
         # send the information to the database
         # TODO: WRITE THE INQUERY and CHECKQUERY FOR CALENDAR HERE. INQUERY CREATES THE INPUTS BASED ON WHAT THE USER GAVE AND CHECKQUERY QUERY THE DATABASE AND RETURN RESULT.
         # CHECK IF THAT RESULT IS NOT NULL TO MAKE SURE THAT THE THING HAS ACTUALLY BEEN ADDED.
@@ -71,7 +82,46 @@ def diaryentry():
         #     "IssueBoard": IssueBoard
         # }))
         return result
-
+    elif ((request.method == "PUT") and (task == "updatedata")): 
+        # send the information to the database
+        # TODO: WRITE THE INQUERY and CHECKQUERY FOR CALENDAR HERE. INQUERY CREATES THE INPUTS BASED ON WHAT THE USER GAVE AND CHECKQUERY QUERY THE DATABASE AND RETURN RESULT.
+        # CHECK IF THAT RESULT IS NOT NULL TO MAKE SURE THAT THE THING HAS ACTUALLY BEEN ADDED.
+        # use the inputquery based on request.json which is the json input from the frontend for the user input.
+        inputquery = ''
+        checkquery = ''
+        cursor = connection.cursor()
+        cursor.execute(inputquery)
+        cursor.execute(checkquery)
+        # for Year, YearTheme, Date, Summary, EmotionBoard, IssueBoard in cursor:
+        #     result.append(jsonify({
+        #     "Year": Year,
+        #     "YearTheme": YearTheme,
+        #     "Date": Date,
+        #     "Summary": Summary,
+        #     "EmotionBoard": EmotionBoard,
+        #     "IssueBoard": IssueBoard
+        # }))
+        return result
+    elif ((request.method == "PUT") and (task == "deletedata")):
+        # send the information to the database
+        # TODO: WRITE THE INQUERY and CHECKQUERY FOR CALENDAR HERE. INQUERY CREATES THE INPUTS BASED ON WHAT THE USER GAVE AND CHECKQUERY QUERY THE DATABASE AND RETURN RESULT.
+        # CHECK IF THAT RESULT IS NOT NULL TO MAKE SURE THAT THE THING HAS ACTUALLY BEEN ADDED.
+        # use the inputquery based on request.json which is the json input from the frontend for the user input.
+        inputquery = ''
+        checkquery = ''
+        cursor = connection.cursor()
+        cursor.execute(inputquery)
+        cursor.execute(checkquery)
+        # for Year, YearTheme, Date, Summary, EmotionBoard, IssueBoard in cursor:
+        #     result.append(jsonify({
+        #     "Year": Year,
+        #     "YearTheme": YearTheme,
+        #     "Date": Date,
+        #     "Summary": Summary,
+        #     "EmotionBoard": EmotionBoard,
+        #     "IssueBoard": IssueBoard
+        # }))
+        return result
 # TODO: CHANGE THIS WITH DAVID'S IMPLEMENTATION.
 # const sendData = await request("http://localhost:8080/calendar").send(jsonify(singleuserinputobject));
 
