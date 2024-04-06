@@ -33,6 +33,7 @@ function ResponsiveExample() {
   const searchParams = new URLSearchParams(location.search);
   const eid = searchParams.get("eid");
   let [searchP, setSearchP] = useState("");
+  let [searchProjection, setSearchProjection] = useState("");
   let [searchS, setSearchS] = useState("");
   const [issue, setIssue] = useState(false);
   const [yearsHaving1, setYearsHaving1] = useState("");
@@ -90,6 +91,7 @@ function ResponsiveExample() {
       const data = {
         projection: searchP, // TODO: possible conflict
         email: eid,
+        projectiontable: searchProjection
       };
       fetch("http://localhost:8080/calendar/projection", {
         method: "POST",
@@ -195,6 +197,10 @@ function ResponsiveExample() {
 
   const handleSearchP = (event) => {
     setSearchP(event.target.value.replace(/[^a-zA-Z,.=]/g, ""));
+  };
+
+  const handleSearchProjection = (event) => {
+    setSearchProjection(event.target.value);
   };
 
   const handleSearchS = (event) => {
@@ -413,6 +419,12 @@ function ResponsiveExample() {
         placeholder="Projection"
         value={searchP}
         onChange={(e) => handleSearchP(e)}
+      />
+      <input
+        type="text"
+        placeholder="ProjectionTable"
+        value={searchProjection}
+        onChange={(e) => handleSearchProjection(e)}
       />
       <div style={{ marginVertical: 10 }} />
       <div>

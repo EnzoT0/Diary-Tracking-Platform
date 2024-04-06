@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 function DiaryList() {
   const [diaries, setDiaries] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [condition, setCondition] = useState("");
   const [fetchedData, setFetchData] = useState([]);
   const searchParams = new URLSearchParams(location.search);
   const eid = searchParams.get("eid");
@@ -43,7 +44,7 @@ function DiaryList() {
     }
   };
 
-  const handleSearch = () => {
+  const handleSearch1 = () => {
     const data = {
         email: eid,
         issue: inputValue,
@@ -75,6 +76,38 @@ function DiaryList() {
     fetchData();
   }, []);
 
+  const handleSearch2 = () => {
+    const data = {
+        email: eid,
+        condition: condition,
+      };
+      fetch("http://localhost:8080/diaryentry/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
+  };
+
+  const handleCondition = (event) => {
+    setCondition(event.target.value);
+  }
+
   // const handleDiaryClick = (id) => {
   //   // Handle click event for diary button
   //   // Redirect to diary page using the id
@@ -100,23 +133,25 @@ function DiaryList() {
       <Homebar />
       <div>
         {/* Display buttons for each diary */}
-        {diaries.map((array, index) => (
+        {/* {diaries.map((array, index) => (
           <Link key={index} to={`/diary?eid=${eid}&did=${index}`}>
             <button>
               Diary {array[0]}
             </button>
           </Link>
-        ))}
+        ))} */}
+        {diaries}
         {/* Button to add a new diary */}
         <button onClick={handleAddDiary}>Add Diary</button>
       </div>
 
       <div>
         <input type="text" value={inputValue} onChange={handleInputChange} />
-        <button onClick={handleSearch}>search</button>
+        <button onClick={handleSearch1}>search1</button>
+        <input type="text" value={condition} onChange={handleCondition} />
+        <button onClick={handleSearch2}>search2</button>
         {fetchedData}
       </div>
-
     </>
   );
 }
