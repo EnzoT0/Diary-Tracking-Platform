@@ -278,7 +278,7 @@ INSERT INTO Issue VALUES('2023-4-22', 11, 'Academic Concession', FALSE, 'Not fee
 INSERT INTO Issue VALUES('2024-4-22', 12, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 12);
 INSERT INTO Issue VALUES('2023-5-16', 5, 'Challenge', FALSE,'Cpsc 213 assignment is too hard', 1002, 5);
 INSERT INTO Issue VALUES('2024-3-15', 6, 'Teamwork', TRUE,'had a fight with my teammate today', 1002, 6);
-INSERT INTO Issue VALUES('2021-4-22', 7, 'Academic Concession', TRUE, 'Not feeling well today', 1002, 7);
+INSERT INTO Issue VALUES('2021-4-22', 7, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 7);
 INSERT INTO Issue VALUES('2022-5-16', 8, 'Challenge', FALSE,'Cpsc 213 assignment is too hard', 1002, 8);
 INSERT INTO Issue VALUES('2023-3-15', 9, 'Teamwork', TRUE,'had a fight with my teammate today', 1002,9);
 

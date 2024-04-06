@@ -442,7 +442,7 @@ function ResponsiveExample() {
       />
       <div style={{ marginVertical: 10 }} />
       <button onClick={() => handleDivision()}>
-        find all the issues that have not been resolved every year overall.
+        find all the unresolved or resolved issues that exists every year.
       </button>
       <button onClick={() => toggleIssueResolved()}>
         {issueResolved ? "Issue Resolved: YES" : "Issue Resolved: NO"}
