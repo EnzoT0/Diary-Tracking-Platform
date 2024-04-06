@@ -38,6 +38,8 @@ function ResponsiveExample() {
   const [yearsHaving1, setYearsHaving1] = useState("");
   const [yearsHaving2, setYearsHaving2] = useState("");
   let [fetchData, setFetchData] = useState([]);
+  const [issueResolved, setIssueResolved] = useState(false);
+  const [fieldortheme, setFieldortheme] = useState(false);
 
   // const handleSearchP = (event) => {
   //   clearTimeout(typingTimeout);
@@ -183,6 +185,14 @@ function ResponsiveExample() {
     setIssue(!issue);
   };
 
+  const toggleIssueResolved = () => {
+    setIssueResolved(!issueResolved);
+  };
+
+  const toggleFieldortheme = () => {
+    setFieldortheme(!fieldortheme);
+  };
+
   const handleyearsHaving1 = (event) => {
     setYearsHaving1(event.target.value.replace(/[^0-9]/g, ""));
   };
@@ -307,6 +317,8 @@ function ResponsiveExample() {
   const handleDivision = () => {
     const data = {
       email: eid,
+      issueResolved: issueResolved,
+      fieldortheme: fieldortheme? "yearfield" : "yeartheme",
     };
     fetch(`http://localhost:8080/calendar/division`, {
       method: "POST",
@@ -432,8 +444,12 @@ function ResponsiveExample() {
       <button onClick={() => handleDivision()}>
         find all the unresolved or resolved issues that exists every year.
       </button>
-      <div style={{ marginVertical: 10 }} />
-      <button onClick={() => handleDiary()}>Render all Diaries</button>
+      <button onClick={() => toggleIssueResolved()}>
+        {issueResolved ? "Issue Resolved: YES" : "Issue Resolved: NO"}
+      </button>
+      <button onClick={() => toggleFieldortheme()}>
+        {fieldortheme ? "Use YearField" : "Use YearTheme"}
+      </button>
 
       {/* <Table
         striped
