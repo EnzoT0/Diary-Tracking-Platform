@@ -331,6 +331,33 @@ function ResponsiveExample() {
       });
   };
 
+  const handleDiary = () => {
+    const data = {
+      email: eid,
+    };
+    fetch("http://localhost:8080/diary/render", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "cors",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setFetchData(data.result);
+        console.log("Data got from backend:", data.result);
+      })
+      .catch((error) => {
+        console.error("Error sending data to backend:", error);
+      });
+  };
+
   return (
     <div>
       <Navbar />
@@ -405,6 +432,8 @@ function ResponsiveExample() {
       <button onClick={() => handleDivision()}>
         find all the issues that have not been resolved every year overall.
       </button>
+      <div style={{ marginVertical: 10 }} />
+      <button onClick={() => handleDiary()}>Render all Diaries</button>
 
       {/* <Table
         striped
