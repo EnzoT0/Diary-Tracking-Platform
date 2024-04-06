@@ -26,7 +26,7 @@ function Diary() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.parse(JSON.stringify(data)),
+          body: JSON.stringify(data),
         });
         const fetchdata = await response.json();
         setEntries(fetchdata);

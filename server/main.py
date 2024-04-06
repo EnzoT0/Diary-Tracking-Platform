@@ -177,7 +177,6 @@ def userupdate():
 def calendar(options):
     connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
     if request.method == 'POST':
-        # return the calendar information from the database here.    
         result = [] 
         # TODO: WRITE THE QUERY FOR CALENDAR HERE. CHECK ON THE FIELDS IN THE FOLLOWING FOR LOOP TO SEE IF THEY ALIGN WITH THE CURSOR.
         if (("projection" in options) and ("selection" in options)):
