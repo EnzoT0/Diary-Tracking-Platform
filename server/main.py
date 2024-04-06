@@ -91,7 +91,7 @@ def login_user():
         return jsonify({"error": "Unauthorized"}), 401
     
 
-    session["uID"] = uID  # Storing user ID in session
+    session["uID"] = uID
     session.modified = True
 
     return jsonify({
