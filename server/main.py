@@ -313,7 +313,7 @@ def calendar(options):
                 # number of issues within the recent * year for each theme. * to be inputted by the user 
                 # use resolved or not as the step for having.
                 # DAVID: Note the name of the body field
-                
+                verification = "u.Email = '" + request.json["email"] + "'"
                 if ("resolvedissue" not in request.json):
                     resolved = ''
                 else:
@@ -330,7 +330,7 @@ def calendar(options):
                     s6 = ' AND y.yearfield = idy.yearfield AND idy.yeartheme = y.yeartheme AND idy.yearID = y.yearID'
                     s7 = ' AND EB.yearfield = y.yearfield AND EB.yeartheme = y.yeartheme AND EB.UserID = u.uid'
                     s8 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
-                    s9 = ' AND idy.issueID = i.issueID'
+                    s9 = ' AND idy.issueID = i.issueID AND ' + verification 
                     s10 = ' GROUP BY yt.Yeartheme)'
                     maxyearforeachtheme = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10
                     recentyearcondition = 'AND maxyear.Maxyear > (2024 - ' + str(request.json["recentyearno"]) + ')'
@@ -345,7 +345,7 @@ def calendar(options):
                     l6 = ' AND y.yearfield = idy.yearfield AND idy.yeartheme = y.yeartheme AND idy.yearID = y.yearID'
                     l7 = ' AND EB.yearfield = y.yearfield AND EB.yeartheme = y.yeartheme AND EB.UserID = u.uid'
                     l8 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
-                    l9 = ' AND idy.issueID = i.issueID'
+                    l9 = ' AND idy.issueID = i.issueID AND ' + verification 
                     l10 = ' GROUP BY y.Yeartheme, maxyear.Yeartheme, maxyear.maxyear'
                     l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition
                     query = maxyearforeachtheme + l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9 + l10 + l11
@@ -359,7 +359,7 @@ def calendar(options):
                     l6 = ' AND y.yearfield = idy.yearfield AND idy.yeartheme = y.yeartheme AND idy.yearID = y.yearID'
                     l7 = ' AND EB.yearfield = y.yearfield AND EB.yeartheme = y.yeartheme AND EB.UserID = u.uid'
                     l8 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
-                    l9 = ' AND idy.issueID = i.issueID ' + resolved
+                    l9 = ' AND idy.issueID = i.issueID ' + resolved + ' AND ' + verification 
                     l10 = ' GROUP BY y.Yeartheme, maxyear.Yeartheme, maxyear.maxyear'
                     l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition
                     query = maxyearforeachtheme + l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9 + l10 + l11
@@ -375,6 +375,7 @@ def calendar(options):
                 
             elif (options == 'division'):
                 # find all the issues that have not been resolved overall that exists in every year.
+                verification = "u.Email = '" + request.json["email"] + "'"
                 if ("attribute" in request.json):
                     if ("issueresolved" in request.json):
                         issuecondition = request.json["issueresolved"]
