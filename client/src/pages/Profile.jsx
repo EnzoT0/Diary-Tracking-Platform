@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"; // Import Link from React Router
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [user, setUser] = useState(null);
   const [showNameForm, setShowNameForm] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const navigate = useNavigate();
 
   const fetchUserData = async () => {
     try {
@@ -50,15 +52,20 @@ function Profile() {
     setUser({ ...user, email: newEmail });
   };
 
-  const handleDelete = () => {
-    axios
-      .delete("http://localhost:8080/userupdate")
-      .then((response) => {
-        console.log(response.data.message);
-      })
-      .catch((error) => {
-        console.error("Error deleting user:", error);
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete("http://localhost:8080/userupdate", {
+        data: { status: "delete" },
+        withCredentials: true,
       });
+      alert("user deleted");
+      setTimeout(() => {
+        navigate("/");
+      }, 2000);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   function NameForm() {

@@ -141,9 +141,12 @@ function ResponsiveExample() {
     }
   }
 
-  useEffect(() => {
-    handleSearch();
-  }, [searchP, searchS]);
+  
+    useEffect(() => {
+      if (searchP !== "" || searchS !== "") {
+        handleSearch();
+      }
+    }, []);
 
   const handleSearchP = (event) => {
     setSearchP(event.target.value.replace(/[^a-zA-Z,]/g, ""));
@@ -292,10 +295,9 @@ function ResponsiveExample() {
         type="text"
         placeholder="Projection"
         value={searchP}
-        onChange={(e) => setSearchP(e)}
+        onChange={(e) => handleSearchP(e)}
       />
       <div style={{ marginVertical: 10 }} />
-      <button onClick={() => handleSearchP()}>Search</button>
       <div>
         Example search: y.yearfield = 2022 AND y.Yeartheme = &quot;Hello
         World&quot;
@@ -304,9 +306,9 @@ function ResponsiveExample() {
         type="text"
         placeholder="Selection"
         value={searchS}
-        onChange={(e) => setSearchS(e)}
+        onChange={(e) => handleSearchS(e)}
       />
-      <button onClick={() => handleSearchS()}>Search</button>
+      <button onClick={() => handleSearch()}>Search</button>
       <div style={{ marginVertical: 10 }} />
       <button onClick={() => toggleIssue()}>
         {issue ? "haveIssue: YES" : "haveIssue: NO"}
