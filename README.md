@@ -22,4 +22,4 @@ Check the Direction folder for the full timeline of the project.
 
 
 # Update April 5th
-Most of the schemas got changed with the user authentication id for verification purposes
+Most of the schemas got changed by adding the user authentication id for verification purposes
