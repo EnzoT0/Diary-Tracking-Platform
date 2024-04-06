@@ -65,12 +65,12 @@ function DiaryList() {
       <Homebar />
       <div>
         {/* Display buttons for each diary */}
-        {diaries.map((diary) => (
-          <button key={diary.id}>
-            <Link to={`/diary?eid=${eid}&did=${diary.id}`}>
-              Diary {diary.id}
-            </Link>
-          </button>
+        {JSON.parse(diaries).map((array, index) => (
+          <Link key={index} to={`/diary?eid=${eid}&did=${array}`}>
+            <button>
+              Diary {index}
+            </button>
+          </Link>
         ))}
         {/* Button to add a new diary */}
         <button onClick={handleAddDiary}>Add Diary</button>

@@ -166,7 +166,7 @@ function ResponsiveExample() {
   };
 
   useEffect(() => {
-    if (searchP == "" || searchS == "") {
+    if (searchP == "" && searchS == "") {
       handleSearch();
     }
   }, []);
@@ -176,7 +176,6 @@ function ResponsiveExample() {
   };
 
   const handleSearchS = (event) => {
-    setSearchS(event.target.value);
     setSearchS(event.target.value);
   };
 
