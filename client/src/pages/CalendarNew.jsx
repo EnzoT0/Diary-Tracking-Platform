@@ -69,11 +69,17 @@ function ResponsiveExample() {
           "Content-Type": "application/json",
           mode: "cors",
         },
-        body: JSON.parse(JSON.stringify(data)),
+        body: JSON.stringify(data), 
       })
-        .then((response) => setFetchData(response))
-        .then((result) => {
-          console.log("Data got from backend:", result);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
           console.error("Error sending data to backend:", error);
@@ -89,14 +95,20 @@ function ResponsiveExample() {
           "Content-Type": "application/json",
           mode: "cors",
         },
-        body: JSON.parse(JSON.stringify(data)),
+        body: JSON.stringify(data), 
       })
-        .then((response) => setFetchData(response))
-        .then((result) => {
-          console.log("Data got from backend:", result);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
-          console.error("Error getting data to backend:", error);
+          console.error("Error sending data to backend:", error);
         });
     } else if (searchS !== "") {
       const data = {
@@ -109,14 +121,20 @@ function ResponsiveExample() {
           "Content-Type": "application/json",
           mode: "cors",
         },
-        body: JSON.parse(JSON.stringify(data)),
+        body: JSON.stringify(data), 
       })
-        .then((response) => setFetchData(response))
-        .then((result) => {
-          console.log("Data got from backend:", result);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
-          console.error("Error getting data to backend:", error);
+          console.error("Error sending data to backend:", error);
         });
     } else {
       const data = {
@@ -129,14 +147,20 @@ function ResponsiveExample() {
           "Content-Type": "application/json",
           mode: "cors",
         },
-        body: JSON.parse(JSON.stringify(data)),
+        body: JSON.stringify(data), 
       })
-        .then((response) => setFetchData(response))
-        .then((result) => {
-          console.log("Data got from backend:", result);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
-          console.error("Error getting data to backend:", error);
+          console.error("Error sending data to backend:", error);
         });
     }
   };
@@ -174,18 +198,25 @@ function ResponsiveExample() {
     };
     fetch(`http://localhost:8080/calendar/GROUPBY`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => setFetchData(response))
-      .then((result) => {
-        console.log("Data got from backend:", result);
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error getting data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   const handleGB2 = () => {
@@ -195,18 +226,25 @@ function ResponsiveExample() {
     };
     fetch(`http://localhost:8080/calendar/GROUPBY`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => setFetchData(response[0]))
-      .then((result) => {
-        console.log("Data got from backend:", result);
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error getting data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   const handleHaving = () => {
@@ -216,18 +254,25 @@ function ResponsiveExample() {
     };
     fetch(`http://localhost:8080/calendar/HAVING`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => setFetchData(response))
-      .then((result) => {
-        console.log("Data got from backend:", result);
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error getting data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   const handleHaving2 = () => {
@@ -238,18 +283,25 @@ function ResponsiveExample() {
     };
     fetch(`http://localhost:8080/calendar/HAVING`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => setFetchData(response))
-      .then((result) => {
-        console.log("Data got from backend:", result);
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error getting data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   const handleDivision = () => {
@@ -258,18 +310,25 @@ function ResponsiveExample() {
     };
     fetch(`http://localhost:8080/calendar/division`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => setFetchData(response))
-      .then((result) => {
-        console.log("Data got from backend:", result);
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error getting data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   return (
