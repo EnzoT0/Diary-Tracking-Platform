@@ -1,242 +1,294 @@
+drop table PriorityGoals;
+drop TABLE NonPriorityGoals;
+
 drop table IssueDateYear;
 drop table Issue;
 drop table YearTheme;
-drop table Year;
 drop table EBType;
 drop table EB;
-drop table DiaryTheme;
-drop table Diary;
-drop table Goal;
-drop table Menu;
-drop table Entry;
 drop table Activity;
-drop table User;
-drop table HaveFriend;
+drop table Entry;
+drop table Years;
+drop table DiaryTheme;
+drop table Menu;
 
-CREATE TABLE IssueDateYear(
-    Date DATE
-    Year INTEGER
-    PRIMARY KEY (Date)
-    FOREIGN KEY (Year) REFERENCES Year(Year)
-)
+drop table HaveFriend;
+drop table Users;
+drop table Diary;
+
+
+
+
+CREATE TABLE Users (
+    uID Integer,
+    uName VARCHAR(50) NOT NULL,
+    Email VARCHAR(50) NOT NULL,
+    Passw VARCHAR(50) NOT NULL,
+    PRIMARY KEY(uID),
+    UNIQUE(Email)
+);
+CREATE TABLE Years(
+	yearID INTEGER,
+    yearfield INTEGER,
+    Yeartheme VARCHAR(50),
+    Dateofentry DATE,
+    Summary VARCHAR(200),
+    UserID INTEGER NOT NULL,
+    PRIMARY KEY (YearID, Yeartheme, yearfield),
+    FOREIGN KEY (UserID) REFERENCES Users(uID)
+);
+CREATE TABLE Menu (
+    Theme VARCHAR(50),
+	MenuID Integer,
+    Description VARCHAR(200),
+	UserID Integer NOT NULL,
+    PRIMARY KEY(Theme, MenuID),
+    FOREIGN KEY(UserID) REFERENCES Users(uID)
+);
+CREATE TABLE YearTheme(
+    Yeartheme VARCHAR(50),
+    Theme VARCHAR(50) NOT NULL,
+    Yearfield INTEGER NOT NULL,
+	MenuID Integer NOT NULL,
+	YearID Integer NOT NULL,
+	UNIQUE(YearID),
+    PRIMARY KEY (Yeartheme, YearID),
+    FOREIGN KEY (Theme, MenuID) REFERENCES Menu(Theme, MenuID),
+    FOREIGN KEY (YearID, YearTheme, Yearfield) REFERENCES Years(YearID, Yeartheme, Yearfield)
+);
 
 CREATE TABLE Issue(
-    Date DATE
-    IssueID INTEGER
-    Name VARCHAR(50)
-    Resolved NUMBER(1)
-    Details VARCHAR(200)
-    PRIMARY KEY (Date, IssueID)
-)
+    issuedate DATE,
+    IssueID INTEGER,
+    issuename VARCHAR(50),
+    Resolved BOOLEAN,
+    Details VARCHAR(200),
+    UserID Integer NOT NULL,
+	YearID Integer NOT NULL,
+    PRIMARY KEY (IssueID),
+    FOREIGN KEY (UserID) REFERENCES Users(uID),
+	FOREIGN KEY (YearID) REFERENCES YearTheme(YearID)
+);
 
-CREATE TABLE YearTheme(
-    Yeartheme VARCHAR(50)
-    Theme VARCHAR(50) NOT NULL
-    PRIMARY KEY (Yeartheme)
-    FOREIGN KEY (Theme) REFERENCES Menu
-)
+CREATE TABLE IssueDateYear(
+    issuedate DATE,
+    yearfield INTEGER NOT NULL,
+	
+	IssueID Integer NOT NULL,
+	yeartheme VARCHAR(50) NOT NULL,
+	YearID Integer NOT NULL,
+    PRIMARY KEY (issuedate, YearID),
+    FOREIGN KEY (yearID, yearfield, yeartheme) REFERENCES Years(yearID, yearfield, yeartheme),
+	FOREIGN KEY (IssueID) REFERENCES Issue(IssueID)
+		
+);
 
-CREATE TABLE Year(
-    Year INTEGER
-    Yeartheme VARCHAR(50)
-    Date DATE
-    Summary VARCHAR(200)
-    PRIMARY KEY (Yeartheme, Year)
-)
 
-CREATE TABLE EBType(
-    Subtypes VARCHAR(200)
-    OverallTypes VARCHAR(50)
-    PRIMARY KEY (Subtypes)
-)
 
-CREATE TABLE EB(
-    Subtypes VARCHAR(200)
-    EmotionID INTEGER
-    Year INTEGER
-    EntryID INTEGER
-    PRIMARY KEY (Subtypes, EmotionID)
-    FOREIGN KEY (Year) REFERENCES Year(Year)
-    FOREIGN KEY (EntryID) REFERENCES Entry
-)
 
-CREATE TABLE DiaryTheme (
-    Diarytheme VARCHAR(50) NOT NULL,
-    Theme VARCHAR(50) NOT NULL
-    PRIMARY KEY(Diarytheme)
-    FOREIGN KEY (Theme) REFERENCES Menu
-)
 
 CREATE TABLE Diary (
     DiaryID INTEGER,
     Diarytheme VARCHAR(50) NOT NULL,
     PRIMARY KEY(DiaryID)
-)
-
-CREATE TABLE PriorityGoals (
-    GoalID INTEGER,
-    Theme VARCHAR(50) NOT NULL,
-    Status NUMBER(1) NOT NULL,
-    GoalDescription VARCHAR(200) NOT NULL,
-    SoftDeadline Date,
-    PRIMARY KEY(GoalID),
-    FOREIGN KEY (Theme) REFERENCES Menu
-)
-
-CREATE TABLE NonPriorityGoals(
-    GoalID INTEGER,
-    Theme VARCHAR(50) NOT NULL,
-    Status NUMBER(1) NOT NULL,
-    GoalDescription VARCHAR(200) NOT NULL,
-    Delegated NUMBER(1),
-    PRIMARY KEY(GoalID),
-    FOREIGN KEY (Theme) REFERENCES Menu
-)
-
-CREATE TABLE Menu (
-    Theme VARCHAR(50),
-    Description VARCHAR(200),
-    UserID INTEGER,
-    PRIMARY KEY(Theme),
-    FOREIGN KEY(UserID) REFERENCES User(ID)
-)
+);
 
 CREATE TABLE Entry (
     EntryID Integer,
     DiaryID INTEGER NOT NULL,
-    Date DATE NOT NULL,
-    Comment VARCHAR(200) NOT NULL,
+    Dateofdiaryentry DATE NOT NULL,
+    entrycomment VARCHAR(200) NOT NULL,
     Emotions VARCHAR(200) NOT NULL,
-    PRIMARY KEY (ActivityID, EntryID),
+    PRIMARY KEY (EntryID),
     FOREIGN KEY (DiaryID) REFERENCES Diary
-)
+        ON DELETE CASCADE
+);
+CREATE TABLE EB(
+    Subtypes VARCHAR(200),
+    EmotionID INTEGER,
+    yearfield INTEGER NOT NULL,
+    yeartheme VARCHAR(50) NOT NULL,
+    EntryID INTEGER NOT NULL,
+    UserID INTEGER NOT NULL,
+	YearID Integer NOT NULL,
+    PRIMARY KEY (Subtypes, EmotionID),
+    FOREIGN KEY (YearID, yearfield, yeartheme) REFERENCES Years(YearID, yearfield, yeartheme),
+    FOREIGN KEY (EntryID) REFERENCES Entry,
+    FOREIGN KEY (UserID) REFERENCES Users(uID)
+);
+
+CREATE TABLE EBType(
+    Subtypes VARCHAR(200),
+    EmotionID INTEGER NOT NULL,
+    OverallTypes VARCHAR(50),
+    PRIMARY KEY (Subtypes, EmotionID),
+    FOREIGN KEY (Subtypes, EmotionID) REFERENCES EB(Subtypes, EmotionID)
+);
+
+
+
+CREATE TABLE DiaryTheme (
+    Diarytheme VARCHAR(50) NOT NULL,
+    Theme VARCHAR(50) NOT NULL,
+	MenuID INTEGER NOT NULL,
+    PRIMARY KEY(Diarytheme),
+    FOREIGN KEY (Theme, MenuID) REFERENCES Menu(Theme, MenuID)
+);
+
+
+CREATE TABLE PriorityGoals (
+    GoalID INTEGER,
+    Theme VARCHAR(50) NOT NULL,
+    Status BOOLEAN NOT NULL,
+    GoalDescription VARCHAR(200) NOT NULL,
+    SoftDeadline Date,
+	MenuID INTEGER NOT NULL,
+    PRIMARY KEY(GoalID),
+    FOREIGN KEY (Theme, MenuID) REFERENCES Menu(Theme, MenuID)
+);
+
+CREATE TABLE NonPriorityGoals(
+    GoalID INTEGER,
+    Theme VARCHAR(50) NOT NULL,
+    Status BOOLEAN NOT NULL,
+    GoalDescription VARCHAR(200) NOT NULL,
+    Delegated BOOLEAN,
+	MenuID INTEGER NOT NULL,
+    PRIMARY KEY(GoalID),
+    FOREIGN KEY (Theme, MenuID) REFERENCES Menu
+);
 
 CREATE TABLE Activity (
     ActivityID INTEGER,
     EntryID Integer NOT NULL,
     ActivityDescription VARCHAR(200),
-    Name VARCHAR(50) NOT NULL,
+    ActivityName VARCHAR(50) NOT NULL,
     PRIMARY KEY (ActivityID, EntryID),
     FOREIGN KEY (EntryID) REFERENCES Entry
-)
-CREATE TABLE User (
-    ID Integer,
-    Name VARCHAR(50) NOT NULL,
-    Email VARCHAR(50) NOT NULL,
-    Password VARCHAR(50) NOT NULL,
-    PRIMARY KEY(ID)
-    UNIQUE(Email)
-)
+);
+
 
 CREATE TABLE HaveFriend(
     UserID Integer,
     FriendID Integer,
     PlaceMet VARCHAR(50),
     PRIMARY KEY (UserID, FriendID),
-    FOREIGN KEY (FriendID) REFERENCES User(ID),
-    FOREIGN KEY (UserID) REFERENCES User(ID)
-)
+    FOREIGN KEY (FriendID) REFERENCES Users(uID),
+    FOREIGN KEY (UserID) REFERENCES Users(uID)
+);
 
-INSERT INTO IssueDateYear VALUES (2022-4-22, 2022);
-INSERT INTO IssueDateYear VALUES (2023-5-16, 2023);
-INSERT INTO IssueDateYear VALUES (2021-2-21, 2021);
-INSERT INTO IssueDateYear VALUES (2022-3-15, 2022);
-INSERT INTO IssueDateYear VALUES (2019-2-12, 2019);
-
-INSERT INTO Issue VALUES(2022-02-21, 1, "Personal Health", 1, "Not feeling well today")
-INSERT INTO Issue VALUES(2021-03-23, 2, "Self-Reflection", 0, "Feel guilty about lying today")
-INSERT INTO Issue VALUES(2023-01-24, 3, "Challenge", 0, "Cpsc 213 assignment is too hard")
-INSERT INTO Issue VALUES(2024-10-03, 4, "Relationship", 1, "had a fight with my brother today")
-INSERT INTO Issue VALUES(2024-10-03, 5, "Dreams", 0, "Maybe this isn't the right place I should
-be in")
-
-INSERT INTO YearTheme VALUES("Watersports", "Sports")
-INSERT INTO YearTheme VALUES("First Year with Honours", "Academic")
-INSERT INTO YearTheme VALUES("Second Year with Honours", "Academics")
-INSERT INTO YearTheme VALUES("Japan Trip", "Travel")
-INSERT INTO YearTheme VALUES("Third Year with Honours", "Academics")
-
-INSERT INTO Year VALUES(2024, "Watersports", 2024-2-01, "A good year of playing marco polo")
-INSERT INTO Year VALUES(2022, "First Year with Honours", 2022-1-12, "A hard year because of
-cpsc 121")
-INSERT INTO Year VALUES(2023, "Second Year with Honours", 2023-7-9, "Cpsc 210 my beloved")
-INSERT INTO Year VALUES(2024, "Third Year with Honours", 2024-8-12, "I don't like finance")
-INSERT INTO Year VALUES(2023, "Japan Trip", 2023-12-5, "Kamakura was great")
-
-INSERT INTO EBType VALUES("Peaceful", "Happy")
-INSERT INTO EBType VALUES("Concerned", "Anxious")
-INSERT INTO EBType VALUES("Frustrated", "Angry")
-INSERT INTO EBType VALUES("Discouraged", "Sad")
-INSERT INTO EBType VALUES("Optimistic", "Happy")
-
-INSERT INTO EB VALUES("Peaceful", 1, 2024, 1)
-INSERT INTO EB VALUES("Discouraged", 2, 2024, 2)
-INSERT INTO EB VALUES("Cheerful", 3, 2024, 3)
-INSERT INTO EB VALUES("Anxious", 4, 2024, 4)
-INSERT INTO EB VALUES("Cheerful", 3, 2024, 5)
-
-INSERT INTO DiaryTheme VALUES("Watersports", "Sports")
-INSERT INTO DiaryTheme VALUES("First Year with Honours", "Academics")
-INSERT INTO DiaryTheme VALUES("Second Year with Honours", "Academics")
-INSERT INTO DiaryTheme VALUES(" Third Year with Honours", "Academics")
-INSERT INTO DiaryTheme VALUES("Japan Trip", "Travel")
-
-INSERT INTO Activity VALUES(1, 1, "Worked on a project", "Work")
-INSERT INTO Activity VALUES(2, 2, "Ate congee", "Food")
-INSERT INTO Activity VALUES(3, 3, "Ate out together", "Food")
-INSERT INTO Activity VALUES(4, 4, "Studied for exams", "Academics")
-INSERT INTO Activity VALUES(5, 5, "Ate together with family", "Food Gathering")
-
-INSERT INTO PriorityGoals VALUES (1, "Health and Fitness", 0, "Get out and touch the grass, stop coding");
-INSERT INTO PriorityGoals VALUES (2, "Personal Development", 1, "Turn off depression mode");
-INSERT INTO PriorityGoals  VALUES (3, "Career and Education", 0, "Stop skipping classes");
-INSERT INTO PriorityGoals  VALUES (4, "Relationships", 0, "Have a girlfriend");
-INSERT INTO PriorityGoals VALUES(5, "Financial Management", 1, "Stop buying more clothes, I'm broke");
-
-INSERT INTO NonPriorityGoals VALUES (1, "Health and Fitness", 0, "Go to the gym every week", 1);
-INSERT INTO NonPriorityGoals VALUES (2, " Personal Development ", 1, "Read a book once a month, maintain a
-healthy diet and drink more water", 0);
-INSERT INTO NonPriorityGoals  VALUES (3, "Career and Education", 0, "Attend professional development
-workshops or seminars", 1);
-INSERT INTO NonPriorityGoals  VALUES (4, "Relationships", 0, "Spend quality time with loved ones and start
-planning meaningful experiences with friends or family", 0);
-INSERT INTO NonPriorityGoals VALUES(5, "Financial Management", 1, "Create and stick to a budget and save
-$300 every month", 1);
-
-
-INSERT INTO Menu VALUES("Sports", "Soccer, basketball, badminton, etc", 1001);
-INSERT INTO Menu VALUES("Academics", "Midterms and finals date, assignments due, etc",
+INSERT INTO Users VALUES (1001, 'Alice', 'alice@example.com', 'password123');
+INSERT INTO Menu VALUES('Health and Fitness', 1, 'Soccer, basketball, badminton, etc', 1001);
+INSERT INTO Menu VALUES('Academics', 2, 'Midterms and finals date, assignments due, etc',
 1001);
-INSERT INTO Menu VALUES("Daily Life", "what happened today, daily occurrences, etc", 1002);
-INSERT INTO Menu VALUES("Food and Cooking", "Interesting recipes, recent food cooked or
-eaten, etc", 1003);
-INSERT INTO Menu VALUES("Travel", "Recent travels, interesting places found, etc.", 1004);
+INSERT INTO Years VALUES(1, 2022, 'First Year with Honours', '2022-1-12', 'A hard year because of cpsc 121', 1001);
+INSERT INTO Years VALUES(2, 2023, 'Second Year with Honours', '2023-7-9', 'Cpsc 210 my beloved', 1001);
+INSERT INTO Years VALUES(3, 2024, 'Third Year with Honours', '2024-8-12', 'I do not like finance', 1001);
 
-INSERT INTO Entry VALUES (1, 101, 2024-02-26, 'Today was a productive day at work.',
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2022, 2,1);
+INSERT INTO YearTheme VALUES('Second Year with Honours', 'Academics', 2023, 2,2);
+INSERT INTO YearTheme VALUES('Third Year with Honours', 'Academics', 2024, 2,3);
+
+INSERT INTO Diary VALUES(101, 'Work');
+INSERT INTO Diary VALUES(102, 'Health');
+INSERT INTO Diary VALUES(103, 'Social');
+INSERT INTO Entry VALUES (1, 101, '2024-02-26', 'Today was a productive day at work.',
 'Happy');
-INSERT INTO Entry VALUES (2, 102, 2024-02-25, 'Feeling a bit under the weather today.',
+INSERT INTO Entry VALUES (2, 102, '2024-02-25', 'Feeling a bit under the weather today.',
 'Sick');
-INSERT INTO Entry VALUES (3, 103, 2024-02-24, 'Had a great time with friends at the
+INSERT INTO Entry VALUES (3, 103, '2024-02-24', 'Had a great time with friends at the
 park.', 'Joyful');
-INSERT INTO Entry VALUES (4, 104, 2024-02-23, 'Feeling stressed about upcoming exams.',
-'Anxious');
-INSERT INTO Entry VALUES (5, 105, 2024-02-22, 'Celebrated mom''s birthday with a family
-dinner.', 'Grateful');
+INSERT INTO EB VALUES('Peaceful', 1, 2022, 'First Year with Honours', 1, 1001,1);
+INSERT INTO EB VALUES('Discouraged', 2, 2023, 'Second Year with Honours', 2, 1001,2);
+INSERT INTO EB VALUES('Cheerful', 3, 2024, 'Third Year with Honours', 3, 1001,3);
 
-INSERT INTO Diary VALUES(1, "Soccer", "Sports")
-INSERT INTO Diary VALUES(2, "Cpsc 304", "Academics")
-INSERT INTO Diary VALUES(3, "New Event", "Daily Life")
-INSERT INTO Diary VALUES(4, "Spaghetti", "Food and Cooking")
-INSERT INTO Diary VALUES(5, "Japan", "Travel")
+INSERT INTO EBType VALUES('Peaceful',1, 'Happy');
+INSERT INTO EBType VALUES('Discouraged',2, 'Sad');
+INSERT INTO EBType VALUES('Cheerful',3, 'Happy');
 
-INSERT INTO User VALUES (1001, 150, 'Alice', 'alice@example.com', 'password123');
-INSERT INTO User VALUES (1002, 200, 'Bob', 'bob@example.com', 'securepass');
-INSERT INTO User VALUES (1003, 75, 'Jhin', 'jhin4@example.com', 'mysecretpass4');
-INSERT INTO User VALUES (1004, 300, 'Diana', 'diana@example.com', 'p@ssw0rd');
-INSERT INTO User VALUES (1005, 100, 'Aphelios', 'aphelios@example.com', 'strongPassword');
+INSERT INTO Issue VALUES('2022-4-22', 1, 'Academic Concession', TRUE, 'Not feeling well today', 1001, 1);
+INSERT INTO Issue VALUES('2023-5-16', 2, 'Challenge', FALSE,'Cpsc 213 assignment is too hard', 1001, 2);
+INSERT INTO Issue VALUES('2024-3-15', 3, 'Teamwork', TRUE,'had a fight with my teammate today', 1001, 3);
 
-INSERT INTO HaveFriend VALUES (1001, 1002, 'Coffee shop');
-INSERT INTO HaveFriend VALUES (1002, 1003, 'Gym');
-INSERT INTO HaveFriend VALUES (1003, 1004, 'Workplace');
-INSERT INTO HaveFriend VALUES (1001, 1004, 'School');
-INSERT INTO HaveFriend VALUES (1005, 1001, 'Online community');
+INSERT INTO IssueDateYear VALUES ('2022-4-22',  2022, 1, 'First Year with Honours',1);
+INSERT INTO IssueDateYear VALUES ('2023-5-16', 2023, 2, 'Second Year with Honours',2);
+INSERT INTO IssueDateYear VALUES ('2024-3-15', 2024, 3, 'Third Year with Honours',3);
+
+
+-- -- SECOND USER
+INSERT INTO Users VALUES (1002, 'Andy', 'andy@example.com', 'password123');
+INSERT INTO Menu VALUES('Health and Fitness', 3, 'Soccer, basketball, badminton, etc', 1002);
+INSERT INTO Menu VALUES('Academics', 4, 'Midterms and finals date, assignments due, etc',
+1002);
+INSERT INTO Years VALUES(4, 2021, 'First Year with Honours', '2021-1-12', 'A hard year because of cpsc 121', 1002);
+INSERT INTO Years VALUES(10, 2022, 'First Year with Honours', '2022-1-12', 'A hard year because of cpsc 121', 1002);
+INSERT INTO Years VALUES(11, 2023, 'First Year with Honours', '2023-1-12', 'A hard year because of cpsc 121', 1002);
+INSERT INTO Years VALUES(12, 2024, 'First Year with Honours', '2024-1-12', 'A hard year because of cpsc 121', 1002);
+INSERT INTO Years VALUES(5, 2023, 'Second Year with Honours', '2023-7-9', 'Cpsc 210 my beloved', 1002);
+INSERT INTO Years VALUES(6, 2024, 'Third Year with Honours', '2024-8-12', 'I do not like finance', 1002);
+INSERT INTO Years VALUES(7, 2021, 'First Year with Honours', '2021-1-12', 'A hard year because of cpsc 121', 1002);
+INSERT INTO Years VALUES(8, 2022, 'Second Year with Honours', '2022-7-9', 'Cpsc 210 my beloved', 1002);
+INSERT INTO Years VALUES(9, 2023, 'Third Year with Honours', '2023-8-12', 'I do not like finance', 1002);
+
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2021, 4,4);
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2022, 4,10);
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2023, 4,11);
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2024, 4,12);
+INSERT INTO YearTheme VALUES('Second Year with Honours', 'Academics', 2023, 4,5);
+INSERT INTO YearTheme VALUES('Third Year with Honours', 'Academics', 2024, 4,6);
+INSERT INTO YearTheme VALUES('First Year with Honours', 'Academics', 2021, 4,7);
+INSERT INTO YearTheme VALUES('Second Year with Honours', 'Academics', 2022, 4,8);
+INSERT INTO YearTheme VALUES('Third Year with Honours', 'Academics', 2023, 4,9);
+
+INSERT INTO Diary VALUES(104, 'Work');
+INSERT INTO Diary VALUES(105, 'Health');
+INSERT INTO Diary VALUES(106, 'Social');
+INSERT INTO Entry VALUES (4, 104, '2022-02-26', 'Today was a productive day at work.',
+'Happy');
+INSERT INTO Entry VALUES (5, 105, '2023-02-25', 'Feeling a bit under the weather today.',
+'Sick');
+INSERT INTO Entry VALUES (6, 106, '2024-02-24', 'Had a great time with friends at the
+park.', 'Joyful');
+INSERT INTO Entry VALUES (7, 104, '2021-02-26', 'Today was a productive day at work.',
+'Happy');
+INSERT INTO Entry VALUES (8, 105, '2022-02-25', 'Feeling a bit under the weather today.',
+'Sick');
+INSERT INTO Entry VALUES (9, 106, '2023-02-24', 'Had a great time with friends at the
+park.', 'Joyful');
+INSERT INTO EB VALUES('Peaceful', 4, 2021, 'First Year with Honours', 4, 1002,4);
+INSERT INTO EB VALUES('Peaceful', 10, 2022, 'First Year with Honours', 4, 1002,10);
+INSERT INTO EB VALUES('Peaceful', 11, 2023, 'First Year with Honours', 4, 1002,11);
+INSERT INTO EB VALUES('Peaceful', 12, 2024, 'First Year with Honours', 4, 1002,12);
+INSERT INTO EB VALUES('Discouraged', 5, 2023, 'Second Year with Honours', 5, 1002,5);
+INSERT INTO EB VALUES('Cheerful', 6, 2024, 'Third Year with Honours', 6, 1002,6);
+INSERT INTO EB VALUES('Peaceful', 7, 2021, 'First Year with Honours', 7, 1002,7);
+INSERT INTO EB VALUES('Discouraged', 8, 2022, 'Second Year with Honours', 8, 1002,8);
+INSERT INTO EB VALUES('Cheerful', 9, 2023, 'Third Year with Honours', 9, 1002,9);
+
+INSERT INTO EBType VALUES('Peaceful',4, 'Happy');
+INSERT INTO EBType VALUES('Discouraged',5, 'Sad');
+INSERT INTO EBType VALUES('Cheerful',6, 'Happy');
+INSERT INTO EBType VALUES('Peaceful',7, 'Happy');
+INSERT INTO EBType VALUES('Discouraged',8, 'Sad');
+INSERT INTO EBType VALUES('Cheerful',9, 'Happy');
+
+INSERT INTO Issue VALUES('2021-4-22', 4, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 4);
+INSERT INTO Issue VALUES('2022-4-22', 10, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 10);
+INSERT INTO Issue VALUES('2023-4-22', 11, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 11);
+INSERT INTO Issue VALUES('2024-4-22', 12, 'Academic Concession', FALSE, 'Not feeling well today', 1002, 12);
+INSERT INTO Issue VALUES('2023-5-16', 5, 'Challenge', FALSE,'Cpsc 213 assignment is too hard', 1002, 5);
+INSERT INTO Issue VALUES('2024-3-15', 6, 'Teamwork', TRUE,'had a fight with my teammate today', 1002, 6);
+INSERT INTO Issue VALUES('2021-4-22', 7, 'Academic Concession', TRUE, 'Not feeling well today', 1002, 7);
+INSERT INTO Issue VALUES('2022-5-16', 8, 'Challenge', FALSE,'Cpsc 213 assignment is too hard', 1002, 8);
+INSERT INTO Issue VALUES('2023-3-15', 9, 'Teamwork', TRUE,'had a fight with my teammate today', 1002,9);
+
+INSERT INTO IssueDateYear VALUES ('2021-4-22',  2021, 4, 'First Year with Honours',4);
+INSERT INTO IssueDateYear VALUES ('2022-4-22',  2022, 10, 'First Year with Honours',10);
+INSERT INTO IssueDateYear VALUES ('2023-4-22',  2023, 11, 'First Year with Honours',11);
+INSERT INTO IssueDateYear VALUES ('2024-4-22',  2024, 12, 'First Year with Honours',12);
+INSERT INTO IssueDateYear VALUES ('2023-5-16', 2023, 5, 'Second Year with Honours',5);
+INSERT INTO IssueDateYear VALUES ('2024-3-15', 2024, 6, 'Third Year with Honours',6);
+INSERT INTO IssueDateYear VALUES ('2021-4-22',  2021, 7, 'First Year with Honours',7);
+INSERT INTO IssueDateYear VALUES ('2022-5-16', 2022, 8, 'Second Year with Honours',8);
+INSERT INTO IssueDateYear VALUES ('2023-3-15', 2023, 9, 'Third Year with Honours',9);
+
