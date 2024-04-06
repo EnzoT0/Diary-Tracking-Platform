@@ -53,7 +53,7 @@ const App = () => (
       <Route path="/issueBoard" element={<IssueBoard />} />
       <Route path="/diaryEntry" element={<DiaryEntry />} />
       <Route path="/menu" element={<Menu />} />
-      <Route path="/diaryList" element={<DiaryList />} />
+      <Route path="/diarylist" element={<DiaryList />} />
       <Route path="/profile" element={<Profile />} />
     </Routes>
   </Router>

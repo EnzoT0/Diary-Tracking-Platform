@@ -7,9 +7,11 @@ import { Link, BrowserRouter as Router } from "react-router-dom";
 
 import { useNavigate } from "react-router-dom";
 
-function Menu(eid) {
+function Menu() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const eid = searchParams.get("eid");
 
   return (
     <>
@@ -18,7 +20,7 @@ function Menu(eid) {
         <button
           style={{ fontSize: "24px", padding: "5em" }}
           onClick={() => {
-            navigate("/calendar");
+            navigate("/calendar?eid=" + eid);
           }}
         >
           Calendar
@@ -26,7 +28,7 @@ function Menu(eid) {
         <button
           style={{ fontSize: "24px", padding: "5em" }}
           onClick={() => {
-            navigate("/diarylist");
+            navigate("/diarylist?eid=" + eid);
           }}
         >
           Diary
@@ -34,7 +36,7 @@ function Menu(eid) {
         <button
           style={{ fontSize: "24px", padding: "5em" }}
           onClick={() => {
-            navigate("/goallist");
+            navigate("/goallist?eid=" + eid);
           }}
         >
           GoalList
@@ -42,7 +44,7 @@ function Menu(eid) {
       </div>
       <div className="profile-link">
         <Link
-          to="/profile"
+          to={`/profile?eid=${eid}`}
           style={{
             fontSize: "18px",
             position: "absolute",
