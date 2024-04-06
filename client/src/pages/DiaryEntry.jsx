@@ -103,19 +103,25 @@ function EntriesForm() {
     };
 
     fetch(`http://localhost:8080/diaryentry/newdata`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.parse(JSON.stringify(data)),
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        console.log("Data sent to backend:", result);
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data), 
       })
-      .catch((error) => {
-        console.error("Error sending data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json(); 
+        })
+        .then((data) => {
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
   };
 
   const isDateValid = () => {
