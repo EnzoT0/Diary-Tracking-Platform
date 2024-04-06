@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 
 function DiaryList() {
   const [diaries, setDiaries] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+  const [fetchedData, setFetchData] = useState([]);
   const searchParams = new URLSearchParams(location.search);
   const eid = searchParams.get("eid");
 
@@ -13,6 +15,7 @@ function DiaryList() {
     try {
       const body = {
         email: eid,
+        
       };
       fetch("http://localhost:8080/diaryentry/render", {
       method: "POST",
@@ -40,6 +43,34 @@ function DiaryList() {
     }
   };
 
+  const handleSearch = () => {
+    const data = {
+        email: eid,
+        issue: inputValue,
+      };
+      fetch("http://localhost:8080/diaryentry/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setFetchData(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -59,6 +90,10 @@ function DiaryList() {
     setDiaries([...diaries, newDiary]);
   };
 
+  const handleInputChange = (event) => {
+    setInputValue(event.target.value);
+  }
+
   return (
     <>
       {/* ...existing code... */}
@@ -75,6 +110,13 @@ function DiaryList() {
         {/* Button to add a new diary */}
         <button onClick={handleAddDiary}>Add Diary</button>
       </div>
+
+      <div>
+        <input type="text" value={inputValue} onChange={handleInputChange} />
+        <button onClick={handleSearch}>search</button>
+        {fetchedData}
+      </div>
+
     </>
   );
 }

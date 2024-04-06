@@ -168,9 +168,29 @@ function ResponsiveExample() {
   };
 
   useEffect(() => {
-    if (searchP == "" && searchS == "") {
-      handleSearch();
-    }
+    // if (searchP == "" && searchS == "") {
+    //   handleSearch();
+    // }
+    fetch(`http://localhost:8080/calendar/admin`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "cors",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setFetchData(data.result);
+        console.log("Data got from backend:", data.result);
+      })
+      .catch((error) => {
+        console.error("Error sending data to backend:", error);
+      });
   }, []);
 
   const handleSearchP = (event) => {
