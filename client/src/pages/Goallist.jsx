@@ -23,25 +23,25 @@ function DisplayGoals() {
 
   useEffect(() => {
     const fetchData = async () => {
-        try {
-            const body = {
-              email: eid
-            };
-            const response = await fetch(`http://localhost:8080/goallist`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.parse(JSON.stringify(body))
-            });
-            const data = await response.json();
-            setGoals(data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+      try {
+        const body = {
+          email: eid,
+        };
+        const response = await fetch(`http://localhost:8080/goallist`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.parse(JSON.stringify(body)),
+        });
+        const data = await response.json();
+        setGoals(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
-}, []);
+  }, []);
 
   const [inputValue, setInputValue] = useState("");
 

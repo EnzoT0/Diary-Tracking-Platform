@@ -189,6 +189,7 @@ function Profile() {
         setOldPassword("");
         setNewPassword("");
         setError("");
+        alert(`Old Password: ${oldPassword}\nNew Password: ${newPassword}`);
         setTimeout(() => {
           setSuccessMessage("");
           setShowPasswordForm(false);

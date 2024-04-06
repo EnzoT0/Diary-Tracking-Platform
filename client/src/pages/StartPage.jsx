@@ -7,22 +7,24 @@ import axios from "axios";
 function StartPage() {
   const [showLoginForm, setShowLoginForm] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [users, setUsers] = useState([]);
+
   const navigate = useNavigate();
 
-  // const fetchUsers = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:8080/admin", {
-  //       withCredentials: true,
-  //     });
-  //     console.log(response.data);
-  //   } catch (error) {
-  //     console.log(response.data.users);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/users", {
+          withCredentials: true,
+        });
+        setUsers(response.data);
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
+    };
 
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
+    fetchUsers();
+  }, []);
 
   const handleStart = () => {
     setShowLoginForm(true);
@@ -43,7 +45,7 @@ function StartPage() {
         },
         { withCredentials: true }
       );
-      navigate("/menu");
+      navigate("/menu?eid=" + email);
     } catch (error) {
       console.error("Login failed:", error);
     }
@@ -70,7 +72,6 @@ function StartPage() {
         form.reset();
         setShowSuccessMessage(false);
       }, 3000);
-      // navigate("/menu");
     } catch (error) {
       console.error("Registration failed:", error);
     }
@@ -104,6 +105,17 @@ function StartPage() {
       {showSuccessMessage && (
         <div className="success-message">Successfully registered!</div>
       )}
+      <div>
+        <h2>Users</h2>
+        <ul>
+          {users.map((user) => (
+            <li key={user.id}>
+              <strong>Name:</strong> {user.name}, <strong>Email:</strong>{" "}
+              {user.email}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

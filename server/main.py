@@ -29,19 +29,23 @@ db_name = 'elysia'
 connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
 
 
-@app.route("/profile")
-def get_user():
-    user_id = session.get("user_id")
-
-    if not user_id:
-        return jsonify({"error": "Unauthorized"}), 401
-
-    user = User.query.filter_by(id=user_id).first()
-    return jsonify({
-        "id": user.id,
-        "name": user.name,
-        "email": user.email
-    })
+@app.route('/users', methods=['GET'])
+def get_users():
+    cursor = connection.cursor()
+    cursor.execute("SELECT uID, uName, Email FROM Users")
+    users = cursor.fetchall()
+    cursor.close()
+    
+    user_list = []
+    for user in users:
+        user_dict = {
+            'id': user[0],
+            'name': user[1],
+            'email': user[2]
+        }
+        user_list.append(user_dict)
+    
+    return jsonify(user_list)
     
 
 @app.route("/register", methods=["POST"])
@@ -155,14 +159,14 @@ def userupdate():
             cursor.execute("UPDATE Users SET Passw = %s WHERE uID = %s", (hashed_new_password, user_id))
             connection.commit()
             cursor.close()
-            return jsonify({"message": "Password updated successfully"})
+            return jsonify({"message": "Password updated successfully."})
 
 
-        if request.method == "DELETE":
-            cursor.execute("DELETE FROM Users WHERE uID = %s", (user_id,))
-            connection.commit()
-            cursor.close()
-            return jsonify({"message": "User deleted successfully"})
+    if request.method == "DELETE":
+        cursor.execute("DELETE FROM Users WHERE uID = %s", (user_id,))
+        connection.commit()
+        cursor.close()
+        return jsonify({"message": "User deleted successfully"})
 
  
 

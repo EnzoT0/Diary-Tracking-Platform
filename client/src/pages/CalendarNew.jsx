@@ -67,7 +67,7 @@ function ResponsiveExample() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "mode": 'cors',
+          mode: "cors",
         },
         body: JSON.parse(JSON.stringify(data)),
       })
@@ -87,7 +87,7 @@ function ResponsiveExample() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "mode": 'cors',
+          mode: "cors",
         },
         body: JSON.parse(JSON.stringify(data)),
       })
@@ -107,7 +107,7 @@ function ResponsiveExample() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "mode": 'cors',
+          mode: "cors",
         },
         body: JSON.parse(JSON.stringify(data)),
       })
@@ -127,7 +127,7 @@ function ResponsiveExample() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "mode": 'cors',
+          mode: "cors",
         },
         body: JSON.parse(JSON.stringify(data)),
       })
@@ -139,14 +139,13 @@ function ResponsiveExample() {
           console.error("Error getting data to backend:", error);
         });
     }
-  }
+  };
 
-  
-    useEffect(() => {
-      if (searchP !== "" || searchS !== "") {
-        handleSearch();
-      }
-    }, []);
+  useEffect(() => {
+    if (searchP !== "" || searchS !== "") {
+      handleSearch();
+    }
+  }, []);
 
   const handleSearchP = (event) => {
     setSearchP(event.target.value.replace(/[^a-zA-Z,]/g, ""));
@@ -174,7 +173,7 @@ function ResponsiveExample() {
       table: "Issue",
     };
     fetch(`http://localhost:8080/calendar/GROUPBY`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -195,7 +194,7 @@ function ResponsiveExample() {
       table: "EB",
     };
     fetch(`http://localhost:8080/calendar/GROUPBY`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -216,7 +215,7 @@ function ResponsiveExample() {
       recentyearno: yearsHaving1,
     };
     fetch(`http://localhost:8080/calendar/HAVING`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -238,7 +237,7 @@ function ResponsiveExample() {
       resolvedissue: true,
     };
     fetch(`http://localhost:8080/calendar/HAVING`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -258,7 +257,7 @@ function ResponsiveExample() {
       email: eid,
     };
     fetch(`http://localhost:8080/calendar/division`, {
-      method: "GET",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -388,7 +387,7 @@ function ResponsiveExample() {
             </tr>
           ))}
         </tbody>
-      </Table> */ }
+      </Table> */}
 
       <div style={{ marginVertical: 10 }} />
 
