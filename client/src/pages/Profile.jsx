@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 function Profile() {
+  const searchParams = new URLSearchParams(location.search);
+  const eid = searchParams.get("eid");
   const [user, setUser] = useState(null);
   const [showNameForm, setShowNameForm] = useState(false);
   const [showEmailForm, setShowEmailForm] = useState(false);
@@ -244,7 +246,7 @@ function Profile() {
           right: "10px",
         }}
       >
-        <Link to="/menu">Back to Menu</Link>
+        <Link to={`/menu?eid=${eid}`}>Back to Menu</Link>
       </div>
       {user && (
         <div>
