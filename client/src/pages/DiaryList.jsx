@@ -14,7 +14,7 @@ function DiaryList() {
       const body = {
         email: eid,
       };
-      fetch("http://localhost:8080/diary", {
+      fetch("http://localhost:8080/diaryentry/render", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,7 +29,7 @@ function DiaryList() {
         return response.json();
       })
       .then((data) => {
-        setDiaries(data.result);
+        setDiaries(JSON.parse(data.result));
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -65,10 +65,10 @@ function DiaryList() {
       <Homebar />
       <div>
         {/* Display buttons for each diary */}
-        {JSON.parse(diaries).map((array, index) => (
-          <Link key={index} to={`/diary?eid=${eid}&did=${array}`}>
+        {diaries.map((array, index) => (
+          <Link key={index} to={`/diary?eid=${eid}&did=${index}`}>
             <button>
-              Diary {index}
+              Diary {array[0]}
             </button>
           </Link>
         ))}
