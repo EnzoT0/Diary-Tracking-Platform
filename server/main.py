@@ -27,7 +27,28 @@ port = '5433'
 db_name = 'CPSC304'
 
 connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
+@app.route("/admin", methods = ['GET'])
 
+def admin():
+    connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
+    try:
+        q1 = "WITH tablename(tab) AS (SELECT table_name AS tab FROM information_schema.tables WHERE table_schema='public') "
+        q2 = "SELECT tablename.tab AS TABLE, column_name FROM INFORMATION_SCHEMA.COLUMNS, tablename WHERE table_name = tablename.tab"
+        q3 = "GROUP BY tablename.tab, column_name"
+        query = q1 + q2 + q3
+        cursor = connection.cursor()
+        cursor.execute(query)
+        data = cursor.fetchall()
+        result = json.dumps(data)
+        cursor.close()
+        return jsonify({
+            "result": result
+        })
+    except:
+        return jsonify({
+            "error": "There is an error"
+        })
+        
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -64,7 +85,7 @@ def register_user():
         cursor = connection.cursor()
 
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
-
+        
         try:
             cursor.execute("INSERT INTO Users (uID, uName, Email, Passw) VALUES (%s, %s, %s, %s)", (uID, name, email, hashed_password))
             
@@ -334,7 +355,7 @@ def calendar(options):
                     s10 = ' GROUP BY yt.Yeartheme)'
                     maxyearforeachtheme = s1 + s2 + s3 + s4 + s5 + s6 + s7 + s8 + s9 + s10
                     recentyearcondition = 'AND maxyear.Maxyear > (2024 - ' + str(request.json["recentyearno"]) + ')'
-                
+                    recentyearcondition2 = 'AND maxyear.Maxyear < (2024 + ' + str(request.json["recentyearno"]) + ')'
                 if ("recentyearno" in request.json and "resolvedissue" not in request.json):
                     
                     l1 = ' SELECT DISTINCT y.Yeartheme as Yeartheme, Count(i.issueID) as CountIssue, maxyear.maxyear'
@@ -347,7 +368,7 @@ def calendar(options):
                     l8 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
                     l9 = ' AND idy.issueID = i.issueID AND ' + verification 
                     l10 = ' GROUP BY y.Yeartheme, maxyear.Yeartheme, maxyear.maxyear'
-                    l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition
+                    l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition + recentyearcondition2
                     query = maxyearforeachtheme + l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9 + l10 + l11
                 elif ("recentyearno" in request.json and "resolvedissue" in request.json):
                     
@@ -361,7 +382,7 @@ def calendar(options):
                     l8 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
                     l9 = ' AND idy.issueID = i.issueID ' + resolved + ' AND ' + verification 
                     l10 = ' GROUP BY y.Yeartheme, maxyear.Yeartheme, maxyear.maxyear'
-                    l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition
+                    l11 = ' HAVING maxyear.Yeartheme = y.Yeartheme '+ recentyearcondition + recentyearcondition2
                     query = maxyearforeachtheme + l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9 + l10 + l11
                 else:
                     return jsonify({
@@ -435,19 +456,40 @@ def diaryentry(task):
             })
         elif (request.method == "POST") and (task == "render") :
             # Show all users diaries
-            connectingboards = 'd.UserID = u.uID'
-            verification = "u.Email = '" + request.json["email"] + "'"
-            query = "SELECT d.DiaryTheme as DiaryTheme, u.Email, u.uName FROM Diary d, Users u WHERE " + connectingboards + " AND " + verification + ";"
-            cursor = connection.cursor()   
-            cursor.execute(query)
-            
-            
-            data = cursor.fetchall()
-            result = json.dumps(data)
-            connection.close()
+            if ("condition" in request.json): # to be applied with menutheme or diarytheme
+                condition = request.json["condition"]
+            else :
+                condition = ""
+            if ("field" in request.json):
+                field = request.json["field"]
+                if (str(field).lower() == "diarytheme"):
+                    connectingboards = 'd.UserID = u.uID AND dt.Diarytheme = d.diarytheme AND dt.MenuID = m.MenuID AND m.UserID = u.uid'
+                    verification = "u.Email = '" + request.json["email"] + "'"
+                    query = "SELECT d.DiaryTheme as DiaryTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
+                    cursor = connection.cursor()   
+                    cursor.execute(query)
+                elif (str(field).lower() == "menutheme"):
+                    connectingboards = 'd.UserID = u.uID AND dt.Diarytheme = d.diarytheme AND dt.MenuID = m.MenuID AND m.UserID = u.uid'
+                    verification = "u.Email = '" + request.json["email"] + "'"
+                    query = "SELECT dt.theme as menuTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
+                    cursor = connection.cursor()   
+                    cursor.execute(query)
+                else:
+                    return jsonify({
+                        "error": "The field is inappropriate"
+                    })
+                
+                data = cursor.fetchall()
+                result = json.dumps(data)
+                connection.close()
+            else :
+                return jsonify({
+                        "error": "No field given for render"
+                }) 
             return jsonify({
                 'result': result
             })
+        
     except:
         return jsonify({
             "error": "Something is wrong. Please try again."
