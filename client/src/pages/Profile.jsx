@@ -175,7 +175,6 @@ function Profile() {
     const handleSubmit = async (event) => {
       event.preventDefault();
       try {
-        // Send a request to verify old password and update it
         const response = await axios.put(
           "http://localhost:8080/userupdate",
           {
@@ -260,7 +259,6 @@ function Profile() {
           </p>
           <button onClick={handlePasswordUpdate}>Update Password</button>
           <br />
-          {/* Render forms based on user actions */}
           {showNameForm && <NameForm onNameChange={handleNameChange} />}
           {showEmailForm && <EmailForm onEmailChange={handleEmailChange} />}
           {showPasswordForm && <PasswordForm />}
