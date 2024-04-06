@@ -21,10 +21,10 @@ bcrypt = Bcrypt(app)
 server_session = Session(app)
 
 username = "postgres"
-password = "Huynhkhang"
+password = "elysia"
 host = 'localhost'
 port = '5433'
-db_name = 'CPSC304'
+db_name = 'elysia'
 
 connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
 
