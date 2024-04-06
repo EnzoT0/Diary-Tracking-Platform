@@ -19,3 +19,5 @@ Milestone 2's details are in Milestone2.pdf
 
 # Progress and Challanges and Where to Start
 Check the Direction folder for the full timeline of the project.
+
+Most of the schemas got changed with the user authentication id for verification purposes
