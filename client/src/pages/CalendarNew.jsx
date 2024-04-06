@@ -430,7 +430,7 @@ function ResponsiveExample() {
       />
       <div style={{ marginVertical: 10 }} />
       <button onClick={() => handleDivision()}>
-        find all the issues that have not been resolved every year overall.
+        find all the unresolved or resolved issues that exists every year.
       </button>
       <div style={{ marginVertical: 10 }} />
       <button onClick={() => handleDiary()}>Render all Diaries</button>
