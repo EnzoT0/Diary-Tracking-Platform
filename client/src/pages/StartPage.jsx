@@ -6,55 +6,73 @@ import axios from "axios";
 
 function StartPage() {
   const [showLoginForm, setShowLoginForm] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const navigate = useNavigate();
 
-  const fetchUsers = async () => {
-    const response = await axios.get("http://localhost:8080/api/users");
-    console.log(response.data.users);
-  }
+  // const fetchUsers = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:8080/admin", {
+  //       withCredentials: true,
+  //     });
+  //     console.log(response.data);
+  //   } catch (error) {
+  //     console.log(response.data.users);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []);
 
   const handleStart = () => {
     setShowLoginForm(true);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    console.log("Form Data:", formData);
-
     const email = formData.get("email");
     const password = formData.get("password");
-    const user = users.find(
-      (user) => user.email === email && user.password === password
-    );
-    if (user) {
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: true }
+      );
       navigate("/menu");
-    } else {
-      console.log("Invalid email or password");
+    } catch (error) {
+      console.error("Login failed:", error);
     }
   };
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     // const formData = new FormData(event.target);
     const form = event.target.closest("form");
     const formData = new FormData(form);
+    const name = formData.get("name");
     const email = formData.get("email");
     const password = formData.get("password");
 
-    const existingUser = users.find((user) => user.email === email);
-    if (existingUser) {
-      console.log("email exists nerd");
-    } else {
-      // console.log("registered succesfully");
-      // console.log(users);
-      const newUser = { email, password };
-      users.push(newUser);
+    try {
+      const response = await axios.post("http://localhost:8080/register", {
+        name: name,
+        email: email,
+        password: password,
+      });
+      // console.log("Registration successful:", response.data);
+      setShowSuccessMessage(true); // Show success message
+      setTimeout(() => {
+        form.reset();
+        setShowSuccessMessage(false);
+      }, 3000);
+      // navigate("/menu");
+    } catch (error) {
+      console.error("Registration failed:", error);
     }
   };
 
@@ -65,6 +83,10 @@ function StartPage() {
         <button onClick={handleStart}>Register/Login</button>
       ) : (
         <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+          </div>
           <div>
             <label htmlFor="email">Email:</label>
             <input type="email" id="email" name="email" required />
@@ -78,6 +100,9 @@ function StartPage() {
             Register
           </button>
         </form>
+      )}
+      {showSuccessMessage && (
+        <div className="success-message">Successfully registered!</div>
       )}
     </div>
   );

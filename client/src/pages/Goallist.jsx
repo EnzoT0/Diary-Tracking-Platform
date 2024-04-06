@@ -1,22 +1,47 @@
 import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import Homebar from "../components/Homebar";
+import { useEffect } from "react";
 
 const Columnnames = ["GoalID", "GoalDescription", "Status"];
 
 function DisplayGoals() {
+  const searchParams = new URLSearchParams(location.search);
+  const eid = searchParams.get("eid");
   const [goals, setGoals] = useState([
-    {
-      GoalID: 1,
-      GoalDescription: "mock1",
-      Status: true, // true for done
-    },
-    {
-      GoalID: 2,
-      GoalDescription: "mock2",
-      Status: false, // false for notdone
-    },
+    // {
+    //   GoalID: 1,
+    //   GoalDescription: "mock1",
+    //   Status: true, // true for done
+    // },
+    // {
+    //   GoalID: 2,
+    //   GoalDescription: "mock2",
+    //   Status: false, // false for notdone
+    // },
   ]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+        try {
+            const body = {
+              email: eid
+            };
+            const response = await fetch(`http://localhost:8080/goallist`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.parse(JSON.stringify(body))
+            });
+            const data = await response.json();
+            setGoals(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+    fetchData();
+}, []);
 
   const [inputValue, setInputValue] = useState("");
 
@@ -65,6 +90,9 @@ function DisplayGoals() {
       <div>
         <input type="text" value={inputValue} onChange={handleChange} />
         <button onClick={handleAddGoal}>Add Goal</button>
+      </div>
+      <div style={{ textAlign: "center" }}>
+        <pre>{JSON.stringify(goals, null, 2)}</pre>
       </div>
     </>
   );
