@@ -19,6 +19,8 @@ function DisplayFriends() {
   const eid = searchParams.get("eid");
   const [friends, setFriends] = useState([]);
 
+  
+
   useEffect(() => {
     const fetchData = async () => {
       try {

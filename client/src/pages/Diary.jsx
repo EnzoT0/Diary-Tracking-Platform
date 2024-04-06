@@ -14,31 +14,44 @@ function Diary() {
   const email = eid;
   const diaryId = did;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = {
-          email: email,
-          diaryId: diaryId,
-        };
-        const response = await fetch(`http://localhost:8080/diary`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(data),
+  const fetchData = async () => {
+    try {
+      const data = {
+        email: email,
+        diaryId: diaryId,
+      };
+      fetch("http://localhost:8080/diary", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setEntries(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
         });
-        const fetchdata = await response.json();
-        setEntries(fetchdata);
-      } catch (error) {
-        const data = {
-          email: email,
-          diaryId: diaryId,
-        };
-        console.error("Error fetching data:", error);
-        console.log("Data fetched:", data);
-      }
-    };
+    } catch (error) {
+      const data = {
+        email: email,
+        diaryId: diaryId,
+      };
+      console.error("Error fetching data:", error);
+      console.log("Data fetched:", data);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 

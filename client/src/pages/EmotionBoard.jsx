@@ -107,25 +107,38 @@ const EmotionBoard = () => {
 
   // }, [searchParams]);
 
+  const fetchData = async () => {
+    try {
+      const body = {
+        email: eid,
+      };
+      fetch("http://localhost:8080/emotionboard", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "cors",
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setDiaries(data.result);
+        console.log("Data got from backend:", data.result);
+      })
+      .catch((error) => {
+        console.error("Error sending data to backend:", error);
+      });
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const body = {
-          email: eid,
-        };
-        const response = await fetch(`http://localhost:8080/emotionboard`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.parse(JSON.stringify(body)),
-        });
-        const data = await response.json();
-        setFetchData(data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
     fetchData();
   }, []);
 
