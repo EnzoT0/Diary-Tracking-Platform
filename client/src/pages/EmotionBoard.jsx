@@ -83,7 +83,7 @@ const fakeData = [
 const EmotionBoard = () => {
   const searchParams = new URLSearchParams(location.search);
   const eid = searchParams.get("eid");
-  const [fetchData, setFetchData] = useState([]);
+  const [fetchDatad, setFetchData] = useState([]);
 
   console.log("hello");
 
@@ -113,26 +113,26 @@ const EmotionBoard = () => {
         email: eid,
       };
       fetch("http://localhost:8080/emotionboard", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        mode: "cors",
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-        return response.json();
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          mode: "cors",
+        },
+        body: JSON.stringify(body),
       })
-      .then((data) => {
-        setDiaries(data.result);
-        console.log("Data got from backend:", data.result);
-      })
-      .catch((error) => {
-        console.error("Error sending data to backend:", error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setDiaries(data.result);
+          console.log("Data got from backend:", data.result);
+        })
+        .catch((error) => {
+          console.error("Error sending data to backend:", error);
+        });
     } catch (error) {
       console.error("Error fetching data:", error);
     }
