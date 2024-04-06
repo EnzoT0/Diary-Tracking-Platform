@@ -377,7 +377,7 @@ def calendar(options):
         "result": result
     })
 
-@app.route('/diaryentry/<string:task>', methods = ['GET','PUT', 'DELETE']) 
+@app.route('/diaryentry/<string:task>', methods = ['POST', 'DELETE']) 
 def diaryentry(task):
     connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
     if ((request.method == "DELETE") and (task == "deletediary")):
@@ -396,7 +396,7 @@ def diaryentry(task):
         return jsonify({
                 'Message': "Diary deleted, please refresh to see the result"
         })
-    elif (request.method == "GET") and (task == "render") :
+    elif (request.method == "POST") and (task == "render") :
         # Show all users diaries
         connectingboards = 'd.UserID = u.uID'
         verification = "u.Email = '" + request.json["email"] + "'"
