@@ -23,3 +23,15 @@ Check the Direction folder for the full timeline of the project.
 
 # Update April 5th
 Most of the schemas got changed by adding the user authentication id for verification purposes
+
+Example:
+CREATE TABLE Years(
+	yearID INTEGER,
+    yearfield INTEGER,
+    Yeartheme VARCHAR(50),
+    Dateofentry DATE,
+    Summary VARCHAR(200),
+    *UserID UUID NOT NULL,*
+    PRIMARY KEY (YearID, Yeartheme, yearfield),
+    FOREIGN KEY (UserID) REFERENCES Users(uID)
+);
