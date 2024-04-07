@@ -20,7 +20,7 @@ Milestone 2's details are in Milestone2.pdf
 # Progress and Challanges and Where to Start
 Check the Direction folder for the full timeline of the project.
 
-# Note for milestone 4-5: The latest ERD does not include the UserID Foreign Keys in many relations as mentioned in the document for milestone 4 
+Note for milestone 4-5: The latest ERD does not include the UserID Foreign Keys in many relations as mentioned in the document for milestone 4 
 
 # Installments:
 - npm install react
