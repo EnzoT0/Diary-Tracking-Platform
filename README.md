@@ -23,7 +23,7 @@ Check the Direction folder for the full timeline of the project.
 Note for milestone 4-5: The latest ERD does not include the UserID Foreign Keys in many relations as mentioned in the document for milestone 4 
 
 # Installments:
-- npm install react
+- npm install
 - pip install flask
 - pip install flask-bcrypt
 - pip install python-dotenv
