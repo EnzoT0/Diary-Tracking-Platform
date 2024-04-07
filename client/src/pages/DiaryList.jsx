@@ -50,7 +50,7 @@ function DiaryList() {
         field: inputValue,
         condition: condition,
       };
-      fetch("http://localhost:8080/diaryentry/", {
+      fetch("http://localhost:8080/diaryentry/render", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -149,9 +149,22 @@ function DiaryList() {
       <div>
         <input type="text" value={inputValue} onChange={handleInputChange} />
         <br />
+        The above textbox is for inputting the field on what part of the diary you will want to see.
         What part of diary do you want to see? Diarytheme or Menutheme?
+        
         <br />
-        If diarytheme, write in diarytheme else menutheme
+        Eitherway, you will receive the result being a list of items each wrapped in square brackets.
+        If diarytheme, write in diarytheme else menutheme.
+        For diarytheme, for each item of the result you get back, it will be in order of menutheme, diarytheme, email and user's name
+        <br />
+        <br />
+        For menutheme, for each item of the result you get back, it will be in order of diarytheme, menutheme, email and user's name
+        <br />
+        <br />
+        For the condition, you can choose which results with only menutheme of certain name or diarytheme with certain name.
+        For diarytheme condition the format is: d.DiaryTheme = '\name\'
+        For menutheme condition the format is: dt.theme = '\name\'
+        You can add AND in between the conditions to find a specific thing.
         <br />
         <input type="text" value={condition} onChange={handleCondition} />
         <button onClick={handleSearch}>searchWithCondition</button>

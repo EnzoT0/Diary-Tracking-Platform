@@ -27,27 +27,27 @@ port = '5433'
 db_name = 'CPSC304'
 
 connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
-@app.route("/admin", methods = ['GET'])
+@app.route("/calendar/admin", methods = ['GET'])
 
 def admin():
     connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
-    try:
-        q1 = "WITH tablename(tab) AS (SELECT table_name AS tab FROM information_schema.tables WHERE table_schema='public') "
-        q2 = "SELECT tablename.tab AS TABLE, column_name FROM INFORMATION_SCHEMA.COLUMNS, tablename WHERE table_name = tablename.tab"
-        q3 = "GROUP BY tablename.tab, column_name"
-        query = q1 + q2 + q3
-        cursor = connection.cursor()
-        cursor.execute(query)
-        data = cursor.fetchall()
-        result = json.dumps(data)
-        cursor.close()
-        return jsonify({
+    # try:
+    q1 = "WITH tablename(tab) AS (SELECT table_name AS tab FROM information_schema.tables WHERE table_schema='public') "
+    q2 = " SELECT tablename.tab AS TABLE, column_name FROM INFORMATION_SCHEMA.COLUMNS, tablename WHERE table_name = tablename.tab"
+    q3 = " GROUP BY tablename.tab, column_name"
+    query = q1 + q2 + q3
+    cursor = connection.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    result = json.dumps(data)
+    cursor.close()
+    return jsonify({
             "result": result
-        })
-    except:
-        return jsonify({
-            "error": "There is an error"
-        })
+    })
+    # except:
+    #     return jsonify({
+    #         "error": "There is an error"
+    #     })
         
 
 @app.route('/users', methods=['GET'])
@@ -217,7 +217,7 @@ def userupdate():
 
 def calendar(options):
     try:
-        connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
+        connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)        
         if request.method == 'POST':
             result = [] 
             # TODO: WRITE THE QUERY FOR CALENDAR HERE. CHECK ON THE FIELDS IN THE FOLLOWING FOR LOOP TO SEE IF THEY ALIGN WITH THE CURSOR.
@@ -238,22 +238,6 @@ def calendar(options):
                 cursor.execute(query)
                 data = cursor.fetchall()
                 result = json.dumps(data)
-            elif (("projection" in options)):
-                projection = "SELECT " + request.json["projection"] + ""
-                verification = "u.Email = '" + request.json["email"] + "'"
-                l1 =  'm.UserID = u.uID AND u.uID = y.UserID AND i.UserID = u.uID '
-                l2 = ' AND yt.theme = m.Theme '
-                l3 = ' AND yt.YearTheme = y.YearTheme AND yt.yearfield = y.yearfield AND yt.yearID = y.yearID'
-                l4 = ' AND y.yearfield = idy.yearfield AND idy.yeartheme = y.yeartheme AND idy.yearID = y.yearID'
-                l5 = ' AND EB.yearfield = y.yearfield AND EB.yeartheme = y.yeartheme AND EB.UserID = u.uid'
-                l6 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
-                l7 = ' AND idy.issueID = i.issueID '
-                connectingtable = l1 + l2 + l3 + l4 + l5 + l6 + l7
-                query = projection + ' FROM YearTheme yt, Menu m, Users u, Years y, IssueDateYear idy, EB, Issue i, EBType ebt'+ ' WHERE ' + connectingtable + ' AND ' + verification + ";"
-                cursor = connection.cursor()
-                cursor.execute(query)
-                data = cursor.fetchall()
-                result = json.dumps(data)
             elif (("selection" in options)):
                 projection = 'SELECT u.email as Email, y.yearfield as Year, y.Yeartheme as Yeartheme, yt.Theme as Theme, y.Summary as Summary, '+ 'y.UserID as UserID'
                 selection = "(" + request.json["selection"] + ")"
@@ -267,6 +251,24 @@ def calendar(options):
                 l7 = ' AND idy.issueID = i.issueID '
                 connectingtable = l1 + l2 + l3 + l4 + l5 + l6 + l7
                 query = projection + ' FROM YearTheme yt, Menu m, Users u, Years y, IssueDateYear idy, EB, Issue i, EBType ebt' + ' WHERE ' + connectingtable + ' AND ' + verification + "AND " + selection + ";"       
+                cursor = connection.cursor()
+                cursor.execute(query)
+                data = cursor.fetchall()
+                result = json.dumps(data)
+            elif (("projection" in options)):
+                projection = "SELECT " + request.json["projection"] + " "
+                # verification = " WHERE u.Email = '" + request.json["email"] + "'" + " AND "
+                if ("projectiontable" in request.json):
+                # l1 =  'm.UserID = u.uID AND u.uID = y.UserID AND i.UserID = u.uID '
+                # l2 = ' AND yt.theme = m.Theme '
+                # l3 = ' AND yt.YearTheme = y.YearTheme AND yt.yearfield = y.yearfield AND yt.yearID = y.yearID'
+                # l4 = ' AND y.yearfield = idy.yearfield AND idy.yeartheme = y.yeartheme AND idy.yearID = y.yearID'
+                # l5 = ' AND EB.yearfield = y.yearfield AND EB.yeartheme = y.yeartheme AND EB.UserID = u.uid'
+                # l6 = ' AND ebt.Subtypes = EB.Subtypes AND ebt.EmotionID = EB.EmotionID'
+                # l7 = ' AND idy.issueID = i.issueID '
+
+                    query = projection + " FROM " + request.json["projectiontable"]
+                # query = projection + ' FROM YearTheme yt, Menu m, Users u, Years y, IssueDateYear idy, EB, Issue i, EBType ebt'+ ' WHERE ' + connectingtable + ' AND ' + verification + ";"
                 cursor = connection.cursor()
                 cursor.execute(query)
                 data = cursor.fetchall()
@@ -393,14 +395,13 @@ def calendar(options):
                 cursor.execute(query)
                 data = cursor.fetchall()
                 result = json.dumps(data)
-                
             elif (options == 'division'):
                 # find all the issues that have not been resolved overall that exists in every year.
                 verification = "u.Email = '" + request.json["email"] + "'"
                 if ("attribute" in request.json):
                     if ("issueresolved" in request.json):
                         issuecondition = request.json["issueresolved"]
-                        l1 = ' SELECT i.issueName as IssueName, ' + str(request.json["attribute"]).replace(" ", "") + ', u.Email, u.uid'
+                        l1 = ' SELECT i.issueName as IssueName, y.' + str(request.json["attribute"]).replace(" ", "") + ', u.Email, u.uid'
                         l2 = ' FROM Users u, Issue i, YearTheme yt , Menu m , Years y , IssueDateYear idy'
                         l3 = " WHERE u.email = '" + request.json["email"] + "' AND u.uID = i.UserID AND"
                         l4 = " m.UserID = u.uID AND u.uID = y.UserID AND i.UserID = u.uID "
@@ -411,7 +412,7 @@ def calendar(options):
                         l9 = " AND NOT EXISTS (SELECT DISTINCT y3." + str(request.json["attribute"]).replace(" ", "") + " FROM Years y3, Issue i2"
                         l10 = " WHERE u.uID = y3.UserID AND i2.UserID = u.uID AND i2.yearID = y3.yearID EXCEPT (SELECT "
                         l11 = " idy2." + str(request.json["attribute"]).replace(" ", "") + " FROM Issue i3, Issuedateyear idy2, Years y4  WHERE i3.Resolved = " + str(issuecondition).capitalize()
-                        l12 = " AND i3.issuename = i.issuename AND u.uid = i3.UserID AND idy2.issueID = i3.issueID AND y4.yearID = idy2.yearID));"
+                        l12 = " AND i3.issuename = i.issuename AND u.uid = i3.UserID AND idy2.issueID = i3.issueID AND y4.yearID = idy2.yearID AND y4.yearfield = idy2.yearfield AND y4.yeartheme = idy2.yeartheme  AND u.uID = y4.UserID AND i3.UserID = u.uID ));"
                         query = l1 + l2 + l3 + l4 + l5 + l6 + l7 + l8 + l9 + l10 + l11 + l12
                     else:
                         return jsonify({
@@ -424,7 +425,7 @@ def calendar(options):
                 cursor = connection.cursor()
                 cursor.execute(query)
                 data = cursor.fetchall()
-                result = json.dumps(data)
+                result = json.dumps(data)  
     except:
         return jsonify({
             "error": "Something is wrong. Please try again."
@@ -465,13 +466,13 @@ def diaryentry(task):
                 if (str(field).lower() == "diarytheme"):
                     connectingboards = 'd.UserID = u.uID AND dt.Diarytheme = d.diarytheme AND dt.MenuID = m.MenuID AND m.UserID = u.uid'
                     verification = "u.Email = '" + request.json["email"] + "'"
-                    query = "SELECT d.DiaryTheme as DiaryTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
+                    query = "SELECT dt.theme as menuTheme, d.DiaryTheme as DiaryTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
                     cursor = connection.cursor()   
                     cursor.execute(query)
                 elif (str(field).lower() == "menutheme"):
                     connectingboards = 'd.UserID = u.uID AND dt.Diarytheme = d.diarytheme AND dt.MenuID = m.MenuID AND m.UserID = u.uid'
                     verification = "u.Email = '" + request.json["email"] + "'"
-                    query = "SELECT dt.theme as menuTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
+                    query = "SELECT d.DiaryTheme as DiaryTheme, dt.theme as menuTheme, u.Email, u.uName FROM Diary d, DiaryTheme dt, Users u, Menu m WHERE" + connectingboards + " AND " + verification + " AND " + condition + ";"
                     cursor = connection.cursor()   
                     cursor.execute(query)
                 else:
