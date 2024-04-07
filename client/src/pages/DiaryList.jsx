@@ -44,10 +44,11 @@ function DiaryList() {
     }
   };
 
-  const handleSearch1 = () => {
+  const handleSearch = () => {
     const data = {
         email: eid,
-        issue: inputValue,
+        field: inputValue,
+        condition: condition,
       };
       fetch("http://localhost:8080/diaryentry/", {
         method: "POST",
@@ -76,33 +77,33 @@ function DiaryList() {
     fetchData();
   }, []);
 
-  const handleSearch2 = () => {
-    const data = {
-        email: eid,
-        condition: condition,
-      };
-      fetch("http://localhost:8080/diaryentry/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          mode: "cors",
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error("Network response was not ok");
-          }
-          return response.json();
-        })
-        .then((data) => {
-          setFetchData(data.result);
-          console.log("Data got from backend:", data.result);
-        })
-        .catch((error) => {
-          console.error("Error sending data to backend:", error);
-        });
-  };
+  // const handleSearch2 = () => {
+  //   const data = {
+  //       email: eid,
+  //       condition: condition,
+  //     };
+  //     fetch("http://localhost:8080/diaryentry/", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         mode: "cors",
+  //       },
+  //       body: JSON.stringify(data),
+  //     })
+  //       .then((response) => {
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         return response.json();
+  //       })
+  //       .then((data) => {
+  //         setFetchData(data.result);
+  //         console.log("Data got from backend:", data.result);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error sending data to backend:", error);
+  //       });
+  // };
 
   const handleCondition = (event) => {
     setCondition(event.target.value);
@@ -147,14 +148,13 @@ function DiaryList() {
 
       <div>
         <input type="text" value={inputValue} onChange={handleInputChange} />
-        <button onClick={handleSearch1}>searchWithIssue</button>
         <br />
         What part of diary do you want to see? Diarytheme or Menutheme?
         <br />
         If diarytheme, write in diarytheme else menutheme
         <br />
         <input type="text" value={condition} onChange={handleCondition} />
-        <button onClick={handleSearch2}>searchWithCondition</button>
+        <button onClick={handleSearch}>searchWithCondition</button>
         {fetchedData}
       </div>
     </>
