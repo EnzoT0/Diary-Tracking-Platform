@@ -55,6 +55,22 @@ function Menu() {
           Profile
         </Link>
       </div>
+      <div className="friends-button">
+        <button
+          style={{
+            fontSize: "24px",
+            position: "absolute",
+            bottom: "10px",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
+          onClick={() => {
+            navigate("/friends?eid=" + eid);
+          }}
+        >
+          Show Friends
+        </button>
+      </div>
     </>
   );
 }

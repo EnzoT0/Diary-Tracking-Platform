@@ -41,6 +41,7 @@ import DiaryEntry from "./pages/DiaryEntry.jsx";
 import StartPage from "./pages/StartPage.jsx";
 import DiaryList from "./pages/DiaryList.jsx";
 import Profile from "./pages/Profile.jsx";
+import Friends from "./pages/Friends.jsx";
 
 const App = () => (
   <Router>
@@ -55,6 +56,7 @@ const App = () => (
       <Route path="/menu" element={<Menu />} />
       <Route path="/diarylist" element={<DiaryList />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/friends" element={<Friends />} />
     </Routes>
   </Router>
 );

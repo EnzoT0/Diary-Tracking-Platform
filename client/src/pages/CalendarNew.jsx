@@ -33,11 +33,14 @@ function ResponsiveExample() {
   const searchParams = new URLSearchParams(location.search);
   const eid = searchParams.get("eid");
   let [searchP, setSearchP] = useState("");
+  let [searchProjection, setSearchProjection] = useState("");
   let [searchS, setSearchS] = useState("");
   const [issue, setIssue] = useState(false);
   const [yearsHaving1, setYearsHaving1] = useState("");
   const [yearsHaving2, setYearsHaving2] = useState("");
   let [fetchData, setFetchData] = useState([]);
+  const [issueResolved, setIssueResolved] = useState(false);
+  const [fieldortheme, setFieldortheme] = useState(false);
 
   // const handleSearchP = (event) => {
   //   clearTimeout(typingTimeout);
@@ -82,12 +85,14 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else if (searchP !== "") {
       const data = {
         projection: searchP, // TODO: possible conflict
         email: eid,
+        projectiontable: searchProjection
       };
       fetch("http://localhost:8080/calendar/projection", {
         method: "POST",
@@ -108,6 +113,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else if (searchS !== "") {
@@ -134,6 +140,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else {
@@ -160,28 +167,61 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     }
   };
 
   useEffect(() => {
-    if (searchP == "" || searchS == "") {
-      handleSearch();
-    }
+    // if (searchP == "" && searchS == "") {
+    //   handleSearch();
+    // }
+    fetch(`http://localhost:8080/calendar/admin`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        mode: "cors",
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setFetchData(data.result);
+        console.log("Data got from backend:", data.result);
+      })
+      .catch((error) => {
+        alert("error: " + error);
+        console.error("Error sending data to backend:", error);
+      });
   }, []);
 
   const handleSearchP = (event) => {
     setSearchP(event.target.value.replace(/[^a-zA-Z,.=]/g, ""));
   };
 
+  const handleSearchProjection = (event) => {
+    setSearchProjection(event.target.value);
+  };
+
   const handleSearchS = (event) => {
-    setSearchS(event.target.value);
     setSearchS(event.target.value);
   };
 
   const toggleIssue = () => {
     setIssue(!issue);
+  };
+
+  const toggleIssueResolved = () => {
+    setIssueResolved(!issueResolved);
+  };
+
+  const toggleFieldortheme = () => {
+    setFieldortheme(!fieldortheme);
   };
 
   const handleyearsHaving1 = (event) => {
@@ -216,6 +256,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -244,6 +285,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -272,6 +314,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -301,6 +344,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -308,6 +352,8 @@ function ResponsiveExample() {
   const handleDivision = () => {
     const data = {
       email: eid,
+      issueresolved: issueResolved,
+      attribute: fieldortheme? "yearfield" : "yeartheme",
     };
     fetch(`http://localhost:8080/calendar/division`, {
       method: "POST",
@@ -328,6 +374,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -355,6 +402,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -382,6 +430,12 @@ function ResponsiveExample() {
         placeholder="Projection"
         value={searchP}
         onChange={(e) => handleSearchP(e)}
+      />
+      <input
+        type="text"
+        placeholder="ProjectionTable"
+        value={searchProjection}
+        onChange={(e) => handleSearchProjection(e)}
       />
       <div style={{ marginVertical: 10 }} />
       <div>
@@ -431,10 +485,14 @@ function ResponsiveExample() {
       />
       <div style={{ marginVertical: 10 }} />
       <button onClick={() => handleDivision()}>
-        find all the issues that have not been resolved every year overall.
+        find all the unresolved or resolved issues that exists every year.
       </button>
-      <div style={{ marginVertical: 10 }} />
-      <button onClick={() => handleDiary()}>Render all Diaries</button>
+      <button onClick={() => toggleIssueResolved()}>
+        {issueResolved ? "Issue Resolved: YES" : "Issue Resolved: NO"}
+      </button>
+      <button onClick={() => toggleFieldortheme()}>
+        {fieldortheme ? "Use YearField" : "Use YearTheme"}
+      </button>
 
       {/* <Table
         striped
