@@ -343,8 +343,8 @@ function ResponsiveExample() {
   const handleDivision = () => {
     const data = {
       email: eid,
-      issueResolved: issueResolved,
-      fieldortheme: fieldortheme? "yearfield" : "yeartheme",
+      issueresolved: issueResolved,
+      attribute: fieldortheme? "yearfield" : "yeartheme",
     };
     fetch(`http://localhost:8080/calendar/division`, {
       method: "POST",
