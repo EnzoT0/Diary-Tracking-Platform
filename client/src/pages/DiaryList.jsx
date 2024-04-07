@@ -37,9 +37,11 @@ function DiaryList() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
     } catch (error) {
+      alert("error: " + error);
       console.error("Error fetching data:", error);
     }
   };
@@ -69,6 +71,7 @@ function DiaryList() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
   };
@@ -147,6 +150,7 @@ function DiaryList() {
       </div>
 
       <div>
+        Field:
         <input type="text" value={inputValue} onChange={handleInputChange} />
         <br />
         The above textbox is for inputting the field on what part of the diary you will want to see.
@@ -167,7 +171,8 @@ function DiaryList() {
         You can add AND in between the conditions to find a specific thing.
         <br />
         <input type="text" value={condition} onChange={handleCondition} />
-        <button onClick={handleSearch}>searchWithCondition</button>
+        <button onClick={handleSearch}>search</button>
+        <br />
         {fetchedData}
       </div>
     </>
