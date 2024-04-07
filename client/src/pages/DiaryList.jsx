@@ -71,6 +71,9 @@ function DiaryList() {
         })
         .then((data) => {
           setFetchData(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
