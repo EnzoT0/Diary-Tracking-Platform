@@ -147,14 +147,14 @@ function DiaryList() {
 
       <div>
         <input type="text" value={inputValue} onChange={handleInputChange} />
-        <button onClick={handleSearch1}>search1</button>
+        <button onClick={handleSearch1}>searchWithIssue</button>
         <br />
         What part of diary do you want to see? Diarytheme or Menutheme?
         <br />
         If diarytheme, write in diarytheme else menutheme
         <br />
         <input type="text" value={condition} onChange={handleCondition} />
-        <button onClick={handleSearch2}>search2</button>
+        <button onClick={handleSearch2}>searchWithCondition</button>
         {fetchedData}
       </div>
     </>
