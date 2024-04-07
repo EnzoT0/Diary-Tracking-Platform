@@ -21,10 +21,10 @@ bcrypt = Bcrypt(app)
 server_session = Session(app)
 
 username = "postgres"
-password = "Huynhkhang"
+password = "elysia"
 host = 'localhost'
 port = '5433'
-db_name = 'CPSC304'
+db_name = 'elysia'
 
 connection = psycopg2.connect(database = db_name, host = host, password = password, port = 5433, user = username)
 @app.route("/calendar/admin", methods = ['GET'])
@@ -48,7 +48,24 @@ def admin():
     #     return jsonify({
     #         "error": "There is an error"
     #     })
-        
+
+@app.route('/user', methods=['GET'])
+def get_user_details():
+    try:
+        user_id = request.args.get('id')
+        cursor = connection.cursor()
+        cursor.execute("SELECT uName, Email FROM Users WHERE uID = %s", (user_id,))
+        user_details = cursor.fetchone()
+        cursor.close()
+        print(user_details[0], user_details[1])
+        if user_details:
+            return jsonify({"Name": user_details[0], "Email": user_details[1]}), 200
+        else:
+            return jsonify({"error": "User not found"}), 404
+
+    except (Exception, psycopg2.Error) as error:
+        print("Error fetching user details from database:", error)
+        return jsonify({"error": "Error fetching user details"}), 500     
 
 @app.route('/users', methods=['GET'])
 def get_users():
@@ -210,7 +227,58 @@ def userupdate():
         }) 
 
  
+@app.route('/friends', methods=['GET', 'POST'])
+def get_or_add_friends():
 
+    user_id = session.get("uID")
+    if request.method == 'GET':
+        try:
+            cursor = connection.cursor()
+            cursor.execute("SELECT * FROM HaveFriend WHERE UserID = %s", (user_id,))
+            friends_data = cursor.fetchall()
+            cursor.close()
+
+            friends = []
+            for friend in friends_data:
+                friend_dict = {
+                    "UserID": friend[0],
+                    "FriendID": friend[1],
+                    "PlaceMet": friend[2]
+                }
+                friends.append(friend_dict)
+
+            return jsonify(friends)
+
+        except (Exception, psycopg2.Error) as error:
+            print("Error fetching data:", error)
+            return jsonify({"error": "Error fetching data"}), 500
+
+    if request.method == 'POST':
+        try:
+            print("userID", user_id)
+            new_friend_data = request.json
+        
+            cursor = connection.cursor()
+            cursor.execute("SELECT uID FROM Users WHERE uName = %s AND Email = %s", (new_friend_data["Name"], new_friend_data["Email"]))
+            friend_id = cursor.fetchone()
+            if not friend_id:
+                return jsonify({"error": "Friend not found"}), 404
+            print("friend-id", friend_id[0])
+
+            cursor.execute("INSERT INTO HaveFriend (UserID, FriendID, PlaceMet) VALUES (%s, %s, %s)",
+                          (user_id, friend_id[0], new_friend_data["PlaceMet"]))
+            
+            # cursor.execute("INSERT INTO HaveFriend (UserID, FriendID, PlaceMet) VALUES (%s, %s, %s)",
+            #               (friend_id[0], user_id, new_friend_data["PlaceMet"]))
+
+            connection.commit()
+            cursor.close()
+
+            return jsonify({"message": "Friend added successfully"}), 200
+
+        except (Exception, psycopg2.Error) as error:
+            print("Error adding friend:", error)
+            return jsonify({"error": "Error adding friend"}), 500
 
 
 @app.route('/calendar/<string:options>', methods=['POST'])
