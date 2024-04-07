@@ -82,6 +82,9 @@ function ResponsiveExample() {
         })
         .then((data) => {
           setFetchData(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
@@ -110,6 +113,9 @@ function ResponsiveExample() {
         })
         .then((data) => {
           setFetchData(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
@@ -137,6 +143,9 @@ function ResponsiveExample() {
         })
         .then((data) => {
           setFetchData(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
@@ -158,12 +167,16 @@ function ResponsiveExample() {
       })
         .then((response) => {
           if (!response.ok) {
+
             throw new Error("Network response was not ok");
           }
           return response.json();
         })
         .then((data) => {
           setFetchData(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
@@ -192,6 +205,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -253,6 +269,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -282,6 +301,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -311,6 +333,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -341,6 +366,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -371,6 +399,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
@@ -399,6 +430,9 @@ function ResponsiveExample() {
       })
       .then((data) => {
         setFetchData(data.result);
+        if (data.result === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {

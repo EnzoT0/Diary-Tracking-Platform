@@ -36,6 +36,9 @@ function Diary() {
         })
         .then((data) => {
           setEntries(data.result);
+          if (data.result === undefined) {
+            alert ("undefined");
+          }
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
