@@ -85,6 +85,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else if (searchP !== "") {
@@ -112,6 +113,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else if (searchS !== "") {
@@ -138,6 +140,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     } else {
@@ -164,6 +167,7 @@ function ResponsiveExample() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
     }
@@ -191,6 +195,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   }, []);
@@ -251,6 +256,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -279,6 +285,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -307,6 +314,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -336,6 +344,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -365,6 +374,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };
@@ -392,6 +402,7 @@ function ResponsiveExample() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
   };

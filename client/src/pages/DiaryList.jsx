@@ -37,9 +37,11 @@ function DiaryList() {
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
+        alert("error: " + error);
         console.error("Error sending data to backend:", error);
       });
     } catch (error) {
+      alert("error: " + error);
       console.error("Error fetching data:", error);
     }
   };
@@ -50,7 +52,7 @@ function DiaryList() {
         field: inputValue,
         condition: condition,
       };
-      fetch("http://localhost:8080/diaryentry/", {
+      fetch("http://localhost:8080/diaryentry/render", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,6 +71,7 @@ function DiaryList() {
           console.log("Data got from backend:", data.result);
         })
         .catch((error) => {
+          alert("error: " + error);
           console.error("Error sending data to backend:", error);
         });
   };
@@ -147,6 +150,7 @@ function DiaryList() {
       </div>
 
       <div>
+        Field:
         <input type="text" value={inputValue} onChange={handleInputChange} />
         <br />
         What part of diary do you want to see? Diarytheme or Menutheme?
@@ -154,7 +158,8 @@ function DiaryList() {
         If diarytheme, write in diarytheme else menutheme
         <br />
         <input type="text" value={condition} onChange={handleCondition} />
-        <button onClick={handleSearch}>searchWithCondition</button>
+        <button onClick={handleSearch}>search</button>
+        <br />
         {fetchedData}
       </div>
     </>
