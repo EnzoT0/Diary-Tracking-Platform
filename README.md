@@ -19,3 +19,11 @@ Milestone 2's details are in Milestone2.pdf
 
 # Progress and Challanges and Where to Start
 Check the Direction folder for the full timeline of the project.
+
+Installments:
+npm install react
+pip install flask
+pip install flask-bcrypt
+pip install python-dotenv
+pip install flask-session
+pip install redis
