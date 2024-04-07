@@ -34,6 +34,9 @@ function DiaryList() {
       })
       .then((data) => {
         setDiaries(JSON.parse(data.result));
+        if (diaries === undefined) {
+          alert ("undefined");
+        }
         console.log("Data got from backend:", data.result);
       })
       .catch((error) => {
