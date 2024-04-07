@@ -1,7 +1,7 @@
 from datetime import timedelta
 from dotenv import load_dotenv
 import os
-# import redis
+import redis
 
 load_dotenv()
 
@@ -25,10 +25,10 @@ class ApplicationConfig:
 
     
 
-    SESSION_TYPE = "filesystem"
+    SESSION_TYPE = "redis"
     SESSION_PERMANENT = True #False
     SESSION_USE_SIGNER = True
-    # SESSION_REDIS = redis.from_url("redis://127.0.0.1:6379")
+    SESSION_REDIS = redis.from_url("redis://127.0.0.1:6379")
     
     PERMANENT_SESSION_LIFETIME = timedelta(minutes=30) # Set the session lifetime
 
