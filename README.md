@@ -8,7 +8,7 @@ Currently, two official plugins are available:
 - [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
 # Project Summary
-The website is a diary-tracking platform designed to provide users with a personalized space for
+Project for CPSC 304. The website is a diary-tracking platform designed to provide users with a personalized space for
 recording and reflecting on their daily experiences, emotions, and activities. The primary goal of
 the website is to allow users to document their thoughts, track their moods, and create a digital
 diary that serves as a valuable tool for self-reflection and emotional awareness.
